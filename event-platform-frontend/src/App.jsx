@@ -1,0 +1,32 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "./context/ThemeContext";
+import { AuthProvider } from "./context/AuthContext"; // ✅ Importă AuthProvider
+import Home from "./pages/Home";
+import EventsList from "./pages/Events/EventsList";
+import EventDetails from "./pages/Events/EventDetails";
+import CreateEvent from "./pages/Events/CreateEvent";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Login from "./pages/Auth/Login";
+
+function App() {
+  return (
+    <ThemeProvider>
+      <AuthProvider> {/* ✅ Adaugă AuthProvider */}
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/events" element={<EventsList />} />
+            <Route path="/events/:id" element={<EventDetails />} />
+            <Route path="/create-event" element={<CreateEvent />} />
+          </Routes>
+          <Footer />
+        </Router>
+      </AuthProvider>
+    </ThemeProvider>
+  );
+}
+
+export default App;
