@@ -14,4 +14,12 @@ function authMiddleware(req, res, next) {
   }
 }
 
-module.exports = authMiddleware;
+function verifyAdmin(req, res, next) {
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ message: 'Acces interzis: doar admini' });
+  }
+  next();
+}
+
+// ✅ Export corect
+module.exports = { authMiddleware, verifyAdmin };

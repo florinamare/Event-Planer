@@ -22,16 +22,22 @@ function Navbar() {
           <Link to="/create-event" onClick={() => setIsOpen(false)}>Adaugă Eveniment</Link>
         </div>
         
-        {/* ✅ Buton de autentificare */}
+        {/* ✅ Buton de autentificare si inregistrare */}
         {user ? (
-          <button className="auth-button" onClick={() => { logout(); navigate("/login"); }}>
-            Deconectare
-          </button>
-        ) : (
-          <button className="auth-button" onClick={() => navigate("/login")}>
-            Autentificare
-          </button>
-        )}
+  <button className="auth-button" onClick={() => { logout(); navigate("/login"); }}>
+    Deconectare
+  </button>
+) : (
+  <div className="auth-buttons">
+    <button className="auth-button" onClick={() => navigate("/login")}>
+      Autentificare
+    </button>
+    <button className="auth-button" onClick={() => navigate("/register")}>
+      Înregistrare
+    </button>
+  </div>
+)}
+
 
         <button onClick={toggleTheme} className="theme-toggle">
           {theme === "light" ? "🌙" : "☀️"}

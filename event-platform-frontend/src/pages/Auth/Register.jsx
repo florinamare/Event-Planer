@@ -4,11 +4,15 @@ import { useNavigate } from "react-router-dom";
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("user"); // Default: utilizator normal
+  const [wantsOrganizer, setWantsOrganizer] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // 🔐 Setăm rolul în funcție de bifă
+    const role = wantsOrganizer ? "pending_organizer" : "user";
+
     const response = await fetch("http://localhost:3000/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -17,7 +21,7 @@ function Register() {
 
     const data = await response.json();
     if (response.ok) {
-      alert("Înregistrare reușită! Te poți autentifica acum.");
+      alert("Cont creat! Dacă ai cerut să fii organizator, un admin va aproba contul.");
       navigate("/login");
     } else {
       alert(data.message);
@@ -26,8 +30,8 @@ function Register() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <h2 className="text-2xl font-bold">Înregistrare</h2>
-      <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
+      <h2 className="text-2xl font-bold mb-4">Înregistrare</h2>
+      <form className="flex flex-col space-y-4 w-80" onSubmit={handleSubmit}>
         <input
           type="email"
           placeholder="Email"
@@ -44,11 +48,17 @@ function Register() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <select className="border p-2 rounded" value={role} onChange={(e) => setRole(e.target.value)}>
-          <option value="user">Utilizator</option>
-          <option value="organizer">Organizator</option>
-        </select>
-        <button className="bg-green-500 text-white p-2 rounded">Înregistrare</button>
+        <label className="flex items-center space-x-2 text-sm">
+          <input
+            type="checkbox"
+            checked={wantsOrganizer}
+            onChange={(e) => setWantsOrganizer(e.target.checked)}
+          />
+          <span>Vreau să fiu organizator (necesită aprobare)</span>
+        </label>
+        <button className="bg-green-600 hover:bg-green-700 text-white p-2 rounded">
+          Înregistrează-te
+        </button>
       </form>
     </div>
   );

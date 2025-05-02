@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const authMiddleware = require('../middleware/auth');
 const User = require('../models/User');
+const { authMiddleware, verifyAdmin } = require('../middleware/auth');
+
+
 
 // Obține profilul utilizatorului (autentificat)
 router.get('/profile', authMiddleware, async (req, res) => {
@@ -30,5 +32,31 @@ router.put('/update-role', authMiddleware, async (req, res) => {
       res.status(500).json({ message: err.message });
     }
   });
+
+  // ✅ Returnează utilizatorii cu rol pending_organizer
+router.get('/pending-organizers', authMiddleware, verifyAdmin, async (req, res) => {
+  try {
+    const pendingUsers = await User.find({ role: 'pending_organizer' }).select('-password');
+    res.json(pendingUsers);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// ✅ Aprobare organizator
+router.patch('/approve/:id', authMiddleware, verifyAdmin, async (req, res) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { role: 'organizer' },
+      { new: true }
+    ).select('-password');
+
+    res.json({ message: 'Utilizator aprobat', user: updatedUser });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
   
 module.exports = router;

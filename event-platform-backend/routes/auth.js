@@ -6,20 +6,46 @@ const jwt = require('jsonwebtoken');
 const secret = process.env.JWT_SECRET || 'secretkey';
 
 // Ruta de înregistrare
-router.post('/register', async (req, res) => {
+
+// 🔐 Înregistrare utilizator
+router.post("/register", async (req, res) => {
   const { email, password, role } = req.body;
+
   try {
     const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).json({ message: 'Utilizatorul există deja' });
+    if (existingUser) {
+      return res.status(400).json({ message: "Acest email este deja folosit." });
+    }
+
+    // 🔐 Setăm rolul doar dacă e permis
+    let finalRole = "user";
+    if (role === "pending_organizer") {
+      finalRole = "pending_organizer";
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ email, password: hashedPassword, role });
+
+    const user = new User({
+      email,
+      password: hashedPassword,
+      role: finalRole,
+    });
+
     await user.save();
-    res.status(201).json({ message: 'Utilizator înregistrat cu succes' });
+
+    res.status(201).json({
+      message: "Utilizator înregistrat cu succes!",
+      info:
+        finalRole === "pending_organizer"
+          ? "Cererea ta de organizator va fi aprobată de un administrator."
+          : undefined,
+    });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error("Eroare la înregistrare:", err);
+    res.status(500).json({ message: "Eroare la înregistrare" });
   }
 });
+
 
 // Ruta de login
 router.post('/login', async (req, res) => {
