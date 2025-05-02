@@ -24,19 +24,28 @@ function Navbar() {
         
         {/* ✅ Buton de autentificare si inregistrare */}
         {user ? (
-  <button className="auth-button" onClick={() => { logout(); navigate("/login"); }}>
-    Deconectare
-  </button>
-) : (
-  <div className="auth-buttons">
-    <button className="auth-button" onClick={() => navigate("/login")}>
-      Autentificare
+  <div className="user-dropdown">
+    <button className="user-button" onClick={() => setIsOpen(!isOpen)}>
+      {user.name || user.email.split("@")[0]} ⬇
     </button>
-    <button className="auth-button" onClick={() => navigate("/register")}>
-      Înregistrare
-    </button>
+    {isOpen && (
+      <div className="dropdown-menu">
+        <Link to="/profile" onClick={() => setIsOpen(false)}>
+  Profilul meu
+</Link>
+
+        <button onClick={() => navigate("/my-tickets")}>Biletele mele</button>
+        <button onClick={() => { logout(); navigate("/auth"); }}>Deconectare</button>
+      </div>
+    )}
   </div>
+) : (
+  <button className="auth-button" onClick={() => navigate("/auth")}>
+    Autentificare
+  </button>
 )}
+
+
 
 
         <button onClick={toggleTheme} className="theme-toggle">

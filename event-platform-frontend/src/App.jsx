@@ -7,9 +7,9 @@ import EventDetails from "./pages/Events/EventDetails";
 import CreateEvent from "./pages/Events/CreateEvent";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import Login from "./pages/Auth/Login";
-import Register from "./pages/Auth/Register"; // ✅ Importă pagina de înregistrare
+import AuthPage from "./pages/Auth/AuthPage";
 import AdminPanel from "./pages/Auth/AdminPanel"; // ✅ Importă AdminPanel
+import ProfilePage from "./pages/User/ProfilePage";
 
 function App() {
   return (
@@ -18,12 +18,12 @@ function App() {
         <Router>
           <Navbar />
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/auth" element={<AuthPage />} />
             <Route path="/" element={<Home />} />
             <Route path="/events" element={<EventsList />} />
             <Route path="/events/:id" element={<EventDetails />} />
             <Route path="/create-event" element={<CreateEvent />} />
+            <Route path="/profile" element={<ProfilePage />} /> {/* ✅ Adaugă ruta pentru profil */}
             <Route path="/admin" element={<AdminPanel />} /> {/* ✅ Adaugă ruta pentru AdminPanel */}
           </Routes>
           <Footer />

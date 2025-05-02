@@ -9,7 +9,7 @@ const secret = process.env.JWT_SECRET || 'secretkey';
 
 // 🔐 Înregistrare utilizator
 router.post("/register", async (req, res) => {
-  const { email, password, role } = req.body;
+  const { name, email, password, role } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -26,6 +26,7 @@ router.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
+      name,
       email,
       password: hashedPassword,
       role: finalRole,

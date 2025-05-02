@@ -256,3 +256,43 @@ body[data-theme="dark"] .navbar {
     margin-top: 10px;
   }
 }
+
+.user-dropdown {
+  position: relative;
+}
+
+.user-button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+  z-index: 100;
+}
+
+.dropdown-menu button {
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 8px;
+  width: 100%;
+  cursor: pointer;
+  color: #333;
+}
+
+.dropdown-menu button:hover {
+  background-color: #f0f0f0;
+}
