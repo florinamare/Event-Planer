@@ -1,13 +1,13 @@
-/* 🟢 General */
+/* ✅ General */
 body {
   margin: 0;
   font-family: "Arial", sans-serif;
-  background-color: #f4f4f9; /* Gri deschis */
+  background-color: #f4f4f9;
   color: #333;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
-/* 🟠 Navbar */
+/* ✅ Navbar */
 .navbar {
   background-color: #0056b3;
   padding: 10px 0;
@@ -17,7 +17,6 @@ body {
   left: 0;
   z-index: 1000;
 }
-
 
 .navbar .container {
   max-width: 1200px;
@@ -50,7 +49,7 @@ body {
   color: #ff7b00;
 }
 
-/* 🔘 Meniu Hamburger */
+/* ✅ Meniu Hamburger */
 .menu-toggle {
   display: none;
   font-size: 1.8rem;
@@ -60,7 +59,7 @@ body {
   cursor: pointer;
 }
 
-/* 🟢 Responsive Navbar */
+/* ✅ Responsive Navbar */
 @media (max-width: 768px) {
   .menu-toggle {
     display: block;
@@ -81,10 +80,14 @@ body {
   .nav-links.open {
     display: flex;
   }
+
+  .auth-button {
+    width: 100%;
+    margin-top: 10px;
+  }
 }
 
-
-/* 🔵 Hero Section */
+/* ✅ Hero */
 .hero {
   background: url('/banner.jpg') center/cover no-repeat;
   height: 50vh;
@@ -104,13 +107,14 @@ body {
   color: white;
 }
 
-/* 🟣 Event Cards */
+/* ✅ Evenimente */
 .event-container {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   padding: 20px;
   justify-content: center;
+  margin-top: 100px;
 }
 
 .event-card {
@@ -152,65 +156,38 @@ body {
   background: #e06700;
 }
 
-/* 🟢 Responsive Design */
-@media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .menu-toggle {
-    display: block;
-    font-size: 2rem;
-    color: white;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    background-color: #0056b3;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    padding: 15px;
-    text-align: center;
-  }
-
-  .nav-links.open {
-    display: flex;
-  }
-
-  .hero h1 {
-    font-size: 2rem;
-  }
-
-  .event-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .event-card {
-    width: 90%;
-  }
+/* ✅ Auth Buttons */
+.auth-button {
+  background-color: #ff7b00;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 15px;
+  font-size: 1rem;
 }
 
-/* 🟢 Tema Light (Implicită) */
+.auth-button:hover {
+  background-color: #e06700;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+/* ✅ Tema Light / Dark */
 body[data-theme="light"] {
   background-color: #f4f4f9;
   color: #333;
 }
 
-/* 🔵 Tema Dark */
 body[data-theme="dark"] {
   background-color: #1e1e2e;
   color: white;
 }
 
-/* 🌙 Tranziție Temă */
 body[data-theme="dark"] .navbar {
   background-color: #222;
 }
@@ -227,72 +204,97 @@ body[data-theme="dark"] .navbar {
   opacity: 0.8;
 }
 
-
-.auth-button {
-  background-color: #ff7b00;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-left: 15px;
-  font-size: 1rem;
-}
-
-.auth-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-
-.auth-button:hover {
-  background-color: #e06700;
-}
-
-/* 🟠 Responsive */
-@media (max-width: 768px) {
-  .auth-button {
-    width: 100%;
-    margin-top: 10px;
-  }
-}
-
 .user-dropdown {
   position: relative;
+  display: inline-block;
 }
 
 .user-button {
-  background: none;
+  background-color: transparent;
   border: none;
-  color: white;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: bold;
+  color: white;
 }
 
 .dropdown-menu {
+  display: none;
   position: absolute;
-  top: 110%;
+  top: 100%; /* chiar sub buton */
   right: 0;
   background-color: white;
-  border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border: 1px solid #ccc;
   padding: 10px;
-  display: flex;
-  flex-direction: column;
   min-width: 150px;
-  z-index: 100;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Afișează meniul când e hover pe .user-dropdown sau e focus în interior */
+.user-dropdown:hover .dropdown-menu,
+.user-dropdown:focus-within .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu a,
 .dropdown-menu button {
+  display: block;
+  padding: 8px;
+  text-decoration: none;
+  color: #333;
   background: none;
   border: none;
-  text-align: left;
-  padding: 8px;
   width: 100%;
+  text-align: left;
   cursor: pointer;
-  color: #333;
 }
 
+.dropdown-menu a:hover,
 .dropdown-menu button:hover {
-  background-color: #f0f0f0;
+  background-color: #f4f4f4;
 }
+
+.profile-page {
+  max-width: 600px;
+  margin: 100px auto 50px;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.profile-page h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #0056b3;
+}
+
+.profile-page p {
+  font-size: 1.1rem;
+  margin: 10px 0;
+}
+
+.profile-page img {
+  margin-top: 15px;
+  border: 2px solid #ccc;
+  padding: 4px;
+  border-radius: 10px;
+}
+
+.profile-page .auth-button {
+  background-color: #0056b3;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  margin-top: 25px;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.profile-page .auth-button:hover {
+  background-color: #004299;
+}
+

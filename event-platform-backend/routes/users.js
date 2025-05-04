@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const { authMiddleware, verifyAdmin } = require('../middleware/auth');
+const upload = require('../middleware/upload');
 
 
 
@@ -57,6 +58,25 @@ router.patch('/approve/:id', authMiddleware, verifyAdmin, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+// 🔄 Update profil cu poză
+router.put('/update-profile', authMiddleware, upload.single('profileImage'), async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: 'Utilizatorul nu a fost găsit' });
 
+    // Actualizează câmpuri (nume, email, etc. dacă ai)
+    if (req.body.name) user.name = req.body.name;
+
+    // 🔄 Actualizează poza dacă a fost trimisă
+    if (req.file) {
+      user.profileImage = `/uploads/${req.file.filename}`;
+    }
+
+    await user.save();
+    res.json({ message: "Profil actualizat cu succes", user });
+  } catch (err) {
+    res.status(500).json({ message: "Eroare la actualizarea profilului" });
+  }
+});
   
 module.exports = router;

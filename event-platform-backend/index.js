@@ -25,6 +25,8 @@ mongoose.connect('mongodb+srv://mareflorinaveronica:Md6bLVD95NeXjj33@cluster0.ep
     app.use('/api/auth', authRoutes);
     app.use('/api/users', userRoutes);
     app.use('/api/events', eventRoutes);
+    app.use('/uploads', express.static('uploads'));
+
 
     app.listen(PORT, () => {
       console.log(`🚀 Serverul rulează pe http://localhost:${PORT}`);
