@@ -6,7 +6,11 @@ const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
 const eventRoutes = require('./routes/events');
+const ticketRoutes = require("./routes/tickets");
+const cartRoutes = require("./routes/cart");
 
+require('./models/Ticket');
+require('./models/Cart');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -26,6 +30,8 @@ mongoose.connect('mongodb+srv://mareflorinaveronica:Md6bLVD95NeXjj33@cluster0.ep
     app.use('/api/users', userRoutes);
     app.use('/api/events', eventRoutes);
     app.use('/uploads', express.static('uploads'));
+    app.use("/api/tickets", ticketRoutes);
+    app.use("/api/cart", cartRoutes);
 
 
     app.listen(PORT, () => {

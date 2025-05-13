@@ -298,3 +298,11 @@ body[data-theme="dark"] .navbar {
   background-color: #004299;
 }
 
+.auth-button.cart {
+  background-color: #28a745;
+}
+
+.auth-button.cart:hover {
+  background-color: #218838;
+}
+

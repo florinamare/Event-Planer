@@ -12,7 +12,7 @@ import SignInSignUp from "./components/SignInSignUp";
 import ProfilePage from "./pages/User/ProfilePage";
 import MyTicketsPage from "./pages/User/MyTicketsPage";
 import EditProfile from "./pages/User/EditProfile";
-
+import CartPage from "./pages/User/CartPage";
 
 function PrivateRoute({ children, role }) {
   const { user } = useContext(AuthContext);
@@ -40,7 +40,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/events" element={<EventsList />} />
           <Route path="/events/:id" element={<EventDetails />} />
-
+          
           <Route
             path="/create-event"
             element={
@@ -82,6 +82,16 @@ function App() {
               <EditProfile />
             </PrivateRoute>
           } />
+
+          <Route
+            path="/cart"
+            element={
+              <PrivateRoute>
+                <CartPage />
+              </PrivateRoute>
+            }
+          />
+
 
         <Route path="*" element={<div>404 - Pagina nu a fost găsită</div>} />
         </Routes>

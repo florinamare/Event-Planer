@@ -38,36 +38,42 @@ function Navbar() {
         <div className={`nav-links ${isOpen ? "open" : ""}`}>
           <Link to="/" onClick={() => setIsOpen(false)}>Acasă</Link>
           <Link to="/events" onClick={() => setIsOpen(false)}>Evenimente</Link>
-          <Link to="/create-event" onClick={() => setIsOpen(false)}>Adaugă Eveniment</Link>
+
+          {/* ✅ Afișează doar pentru organizator și admin */}
+          {(user?.role === "organizer" || user?.role === "admin") && (
+            <Link to="/create-event" onClick={() => setIsOpen(false)}>Adaugă Eveniment</Link>
+          )}
         </div>
 
+
         {user ? (
+          <>
           <div
           className="user-dropdown"
           onMouseEnter={() => setShowDropdown(true)}
           onMouseLeave={() => setShowDropdown(false)}
         >
           <button className="user-button" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          {user.profileImage && (
-            <img
-            src={
-              user?.profileImage
-                ? `http://localhost:3000${user.profileImage}`
-                : "/default-avatar.png"
-            }
-            onError={(e) => { e.target.onerror = null; e.target.src = "/default-avatar.png"; }}
-            alt="Avatar"
-            style={{
-              width: "32px",
-              height: "32px",
-              borderRadius: "50%",
-              objectFit: "cover",
-              marginRight: "8px",
-            }}
-          />
-          
-            
-          )}
+          <img
+        src={
+          user?.profileImage
+            ? `http://localhost:3000${user.profileImage}`
+            : "/default-avatar.png"
+        }
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = "/default-avatar.png";
+        }}
+        alt="Avatar"
+        style={{
+          width: "32px",
+          height: "32px",
+          borderRadius: "50%",
+          objectFit: "cover",
+          marginRight: "8px",
+        }}
+/>
+
           {user.name || "Cont"} ⬇
         </button>
 
@@ -80,11 +86,17 @@ function Navbar() {
           )}
         </div>
         
-        
+        <button
+          className="auth-button cart"
+          onClick={() => navigate("/cart")}
+        >
+          🛒 Coș
+        </button>
+        </>
+       
         ) : (
           <div className="auth-buttons">
             <button className="auth-button" onClick={() => navigate("/auth")}>Autentificare</button>
-            <button className="auth-button" onClick={() => navigate("/auth")}>Înregistrare</button>
           </div>
         )}
 

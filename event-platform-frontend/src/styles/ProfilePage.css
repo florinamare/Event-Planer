@@ -1,0 +1,29 @@
+/* ProfilePage.css */
+.profile-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 2rem;
+    max-width: 400px;
+    margin: auto;
+    text-align: center;
+  }
+  
+  .profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+  }
+  
+  .profile-edit-button {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
