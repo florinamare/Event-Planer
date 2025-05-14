@@ -27,17 +27,17 @@ function EventDetails() {
     fetchEvent();
   }, [id]);
 
-  const handlePurchase = async () => {
+  const handleAddToCart = async () => {
     setMessage("");
     const token = localStorage.getItem("token");
-
+  
     if (!selectedTicket || quantity <= 0) {
       setMessage("Selectează un tip de bilet și cantitate validă.");
       return;
     }
-
+  
     try {
-      const response = await fetch("http://localhost:3000/api/tickets/purchase", {
+      const response = await fetch("http://localhost:3000/api/cart/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,21 +45,22 @@ function EventDetails() {
         },
         body: JSON.stringify({
           eventId: id,
-          ticketType: selectedTicket,
+          type: selectedTicket,
           quantity,
         }),
       });
-
+  
       const data = await response.json();
       if (response.ok) {
-        setMessage("✅ Biletele au fost cumpărate cu succes!");
+        setMessage("✅ Biletele au fost adăugate în coș!");
       } else {
-        setMessage(data.message || "Eroare la achiziție.");
+        setMessage(data.message || "Eroare la adăugare în coș.");
       }
     } catch (error) {
       setMessage("Eroare la conectare cu serverul.");
     }
   };
+  
 
   if (loading) return <h1>Se încarcă detaliile...</h1>;
   if (!event) return <h1>Evenimentul nu a fost găsit.</h1>;
@@ -116,19 +117,20 @@ function EventDetails() {
 
           <br />
           <button
-            onClick={handlePurchase}
-            style={{
-              backgroundColor: "#0056b3",
-              color: "white",
-              padding: "10px 15px",
-              marginTop: "15px",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-          >
-            Cumpără Bilete
-          </button>
+          onClick={handleAddToCart}
+          style={{
+            backgroundColor: "#28a745",
+            color: "white",
+            padding: "10px 15px",
+            marginTop: "15px",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+>
+  🛒 Adaugă în coș
+</button>
+
 
           {message && <p style={{ marginTop: "15px", color: "#333" }}>{message}</p>}
         </div>

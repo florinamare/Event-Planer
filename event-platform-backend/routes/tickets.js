@@ -50,48 +50,33 @@ router.post("/purchase", authMiddleware, async (req, res) => {
   }
 });
 
-// GET /api/tickets/my
+// 🟢 Doar această rută GET trebuie să existe pentru /my
 router.get("/my", authMiddleware, async (req, res) => {
-    try {
-      const tickets = await Ticket.find({ user: req.user.id })
-        .populate("event", "title date location") // populate pentru titlu, dată etc.
-        .sort({ createdAt: -1 });
-  
-      res.json(tickets);
-    } catch (err) {
-      res.status(500).json({ message: "Eroare la preluarea biletelor" });
-    }
-  });
-  
-// 🟢 Returnează biletele cumpărate, împărțite în actuale și expirate
-router.get("/my", authMiddleware, async (req, res) => {
-    try {
-      // Găsește toate biletele cumpărate de utilizator
-      const tickets = await Ticket.find({ user: req.user.id }).populate("event");
-  
-      // Separă în actuale și expirate
-      const now = new Date();
-      const grouped = {
-        active: [],
-        expired: [],
-      };
-  
-      tickets.forEach((ticket) => {
-        if (ticket.event && ticket.event.date) {
-          const isExpired = new Date(ticket.event.date) < now;
-          if (isExpired) {
-            grouped.expired.push(ticket);
-          } else {
-            grouped.active.push(ticket);
-          }
+  try {
+    const tickets = await Ticket.find({ user: req.user.id }).populate("event");
+
+    const now = new Date();
+    const grouped = {
+      active: [],
+      expired: [],
+    };
+
+    tickets.forEach((ticket) => {
+      if (ticket.event && ticket.event.date) {
+        const isExpired = new Date(ticket.event.date) < now;
+        if (isExpired) {
+          grouped.expired.push(ticket);
+        } else {
+          grouped.active.push(ticket);
         }
-      });
-  
-      res.json(grouped);
-    } catch (err) {
-      console.error("❌ Eroare la preluarea biletelor:", err);
-      res.status(500).json({ message: "Eroare la server." });
-    }
-  });
-  
+      }
+    });
+
+    res.json(grouped);
+  } catch (err) {
+    console.error("❌ Eroare la preluarea biletelor:", err);
+    res.status(500).json({ message: "Eroare la server." });
+  }
+});
+
 module.exports = router;

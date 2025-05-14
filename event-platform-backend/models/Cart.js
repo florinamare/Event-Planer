@@ -1,18 +1,17 @@
+// cart.js (MODEL)
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const cartItemSchema = new Schema({
-  event: { type: Schema.Types.ObjectId, ref: "Event", required: true },
-  type: { type: String, required: true }, // ex: VIP, early-bird etc.
-  quantity: { type: Number, required: true },
+const CartItemSchema = new Schema({
+  event: { type: Schema.Types.ObjectId, ref: "Event" },
+  type: String,
+  quantity: Number,
+  price: Number, // ✅ Adaugă acest câmp
 });
 
-const cartSchema = new Schema(
-  {
-    user: { type: Schema.Types.ObjectId, ref: "User", required: true, unique: true },
-    items: [cartItemSchema],
-  },
-  { timestamps: true }
-);
+const CartSchema = new Schema({
+  user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  items: [CartItemSchema],
+});
 
-module.exports = mongoose.model("Cart", cartSchema);
+module.exports = mongoose.model("Cart", CartSchema);

@@ -3,6 +3,7 @@ const router = express.Router();
 const Cart = require("../models/Cart");
 const Event = require("../models/Event");
 const { authMiddleware } = require("../middleware/auth");
+const Ticket = require("../models/Ticket");
 
 // ✅ [GET] Obține coșul utilizatorului
 router.get("/", authMiddleware, async (req, res) => {
@@ -27,23 +28,40 @@ router.post("/add", authMiddleware, async (req, res) => {
       cart = new Cart({ user: req.user.id, items: [] });
     }
 
-    // Verificăm dacă există deja acest bilet în coș
+    // 🔍 Obține eventul și biletul aferent tipului
+    const event = await Event.findById(eventId);
+    if (!event) return res.status(404).json({ message: "Evenimentul nu a fost găsit." });
+
+    const ticketType = event.tickets.find(t => t.type === type);
+    if (!ticketType) return res.status(404).json({ message: "Tipul de bilet nu a fost găsit." });
+
+    // 🔁 Caută dacă există deja acest tip de bilet în coș
     const existingItem = cart.items.find(
       (item) => item.event.toString() === eventId && item.type === type
     );
 
     if (existingItem) {
       existingItem.quantity += quantity;
+      existingItem.price = ticketType.price; // 🟢 actualizează prețul dacă se modifică
     } else {
-      cart.items.push({ event: eventId, type, quantity });
+      cart.items.push({
+        event: eventId,
+        type,
+        quantity,
+        price: ticketType.price, // ✅ salvăm prețul acum
+      });
     }
 
     await cart.save();
     res.json({ message: "Bilet adăugat în coș", cart });
   } catch (err) {
+    console.error("❌ Eroare la adăugare:", err);
     res.status(500).json({ message: "Eroare la adăugare în coș." });
   }
 });
+
+
+
 
 // ✅ [DELETE] Șterge un bilet din coș
 router.delete("/remove", authMiddleware, async (req, res) => {
@@ -66,34 +84,45 @@ router.delete("/remove", authMiddleware, async (req, res) => {
 
 // POST /api/cart/checkout
 router.post("/checkout", authMiddleware, async (req, res) => {
-    try {
-      const userId = req.user.id;
-      const cartItems = await Cart.find({ user: userId }).populate("event");
-  
-      if (!cartItems.length) {
-        return res.status(400).json({ message: "Coșul este gol." });
-      }
-  
-      // Creează bilete pentru fiecare articol din coș
-      const ticketsToSave = cartItems.map((item) => ({
+  try {
+    const userId = req.user.id;
+
+    const cart = await Cart.findOne({ user: userId }).populate("items.event");
+
+    if (!cart || cart.items.length === 0) {
+      return res.status(400).json({ message: "Coșul este gol." });
+    }
+
+    const ticketsToSave = [];
+
+    for (const item of cart.items) {
+      const ticketInfo = item.event.tickets?.find(t => t.type === item.type);
+      if (!ticketInfo) continue; // sare peste dacă nu găsește tipul de bilet
+
+      ticketsToSave.push({
         user: userId,
         event: item.event._id,
         eventTitle: item.event.title,
         quantity: item.quantity,
-        price: item.price,
-      }));
-  
-      // Salvăm toate biletele odată
-      await Ticket.insertMany(ticketsToSave);
-  
-      // Șterge articolele din coș
-      await Cart.deleteMany({ user: userId });
-  
-      res.status(201).json({ message: "Checkout finalizat cu succes!", tickets: ticketsToSave });
-    } catch (err) {
-      console.error("Eroare la checkout:", err);
-      res.status(500).json({ message: "Eroare la procesarea checkout-ului." });
+        price: ticketInfo.price,
+        ticketType: item.type,
+      });
+      
     }
-  });
+
+    if (ticketsToSave.length === 0) {
+      return res.status(400).json({ message: "Nu s-au putut procesa biletele." });
+    }
+
+    await Ticket.insertMany(ticketsToSave);
+    await Cart.findOneAndDelete({ user: userId });
+
+    res.status(201).json({ message: "Checkout finalizat cu succes!", tickets: ticketsToSave });
+  } catch (err) {
+    console.error("❌ Eroare la checkout:", err);
+    res.status(500).json({ message: "Eroare la procesarea checkout-ului." });
+  }
+});
+
   
 module.exports = router;
