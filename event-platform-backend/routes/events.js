@@ -2,31 +2,59 @@ const express = require('express');
 const router = express.Router();
 const { authMiddleware } = require('../middleware/auth');
 const Event = require('../models/Event');
+const upload = require("../middleware/upload");
 
 
 // Crearea unui eveniment nou (acces doar pentru organizatori/admini)
-router.post('/', authMiddleware, async (req, res) => {
+// ✅ Creare eveniment + încărcare imagine
+router.post("/", authMiddleware, upload.fields([{ name: "image", maxCount: 1 }]), async (req, res) => {
   if (req.user.role !== 'organizer' && req.user.role !== 'admin') {
     return res.status(403).json({ message: 'Acces interzis' });
   }
 
-  const { title, description, type, date, location, tickets } = req.body;
+  const imagePath = req.files?.image?.[0]
+    ? `/uploads/events/${req.files.image[0].filename}`
+    : null;
+
+  // Extrage biletele din req.body
+        let tickets = [];
+      try {
+        tickets = JSON.parse(req.body.tickets || "[]").map(ticket => ({
+          type: ticket.type || "Standard",
+          price: Number(ticket.price) || 0,
+          quantity: Number(ticket.quantity) || 0,
+        }));
+      } catch (err) {
+        console.error("❌ Eroare la parsarea biletelor:", err);
+      }
+
+  
+  console.log("📦 Tichete extrase:", tickets);
+
+
+
   try {
+    console.log("📦 Tickets trimise:", tickets);
     const newEvent = new Event({
-      title,
-      description,
-      type,
-      date,
-      location,
+      title: req.body.title,
+      description: req.body.description,
+      type: req.body.type,
+      date: req.body.date,
+      location: { address: req.body.location },
+      image: imagePath,
+      tickets,
       organizer: req.user.id,
-      tickets
     });
+    console.log("✅ Bilete finale salvate:", tickets);
     await newEvent.save();
     res.status(201).json(newEvent);
   } catch (err) {
+    console.error("❌ Eroare la creare eveniment:", err);
     res.status(500).json({ message: err.message });
   }
 });
+
+
 
 // Listarea evenimentelor
 router.get('/', async (req, res) => {
@@ -35,6 +63,16 @@ router.get('/', async (req, res) => {
     res.json(events);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+});
+
+// 🔵 Returnează evenimentele organizatorului logat
+router.get("/my", authMiddleware, async (req, res) => {
+  try {
+    const events = await Event.find({ organizer: req.user.id }).sort({ createdAt: -1 });
+    res.json(events);
+  } catch (err) {
+    res.status(500).json({ message: "Eroare la preluarea evenimentelor" });
   }
 });
 
@@ -52,6 +90,80 @@ router.get("/:id", async (req, res) => {
       res.status(500).json({ message: "Eroare la căutarea evenimentului" });
     }
   });
+
   
+
+  // Editare eveniment existent
+router.put("/:id", authMiddleware, upload.single("image"), async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    if (!event) return res.status(404).json({ message: "Evenimentul nu există." });
+
+    if (event.organizer.toString() !== req.user.id && req.user.role !== "admin") {
+      return res.status(403).json({ message: "Nu ai dreptul să editezi acest eveniment." });
+    }
+
+    // Actualizăm imaginea dacă a fost încărcată o nouă imagine
+    const imagePath = req.file ? `/uploads/events/${req.file.filename}` : event.image;
+
+    // Extragem biletele din FormData
+    const tickets = Object.keys(req.body)
+      .filter((key) => key.startsWith("tickets["))
+      .reduce((acc, key) => {
+        const match = key.match(/tickets\[(\d+)\]\[(\w+)\]/);
+        if (match) {
+          const [, index, field] = match;
+          acc[index] = acc[index] || {};
+          acc[index][field] = req.body[key];
+        }
+        return acc;
+      }, [])
+      .map((ticket) => ({
+        ...ticket,
+        price: Number(ticket.price),
+        quantity: Number(ticket.quantity),
+      }));
+
+    // Actualizăm câmpurile
+    event.title = req.body.title || event.title;
+    event.description = req.body.description || event.description;
+    event.type = req.body.type || event.type;
+    event.date = req.body.date || event.date;
+    event.location = { address: req.body.location } || event.location;
+    event.image = imagePath;
+    event.tickets = tickets;
+
+    await event.save();
+    res.json(event);
+  } catch (err) {
+    console.error("Eroare la editarea evenimentului:", err);
+    res.status(500).json({ message: "Eroare server." });
+  }
+});
+
+
+router.delete("/:id", authMiddleware, async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    if (!event) return res.status(404).json({ message: "Evenimentul nu există" });
+
+    if (String(event.organizer) !== req.user.id && req.user.role !== 'admin') {
+      return res.status(403).json({ message: "Nu ai permisiunea să ștergi acest eveniment" });
+    }
+
+    await event.deleteOne();
+    res.json({ message: "Eveniment șters cu succes" });
+  } catch (err) {
+    console.error("❌ Eroare la ștergere:", err);
+    res.status(500).json({ message: "Eroare internă" });
+  }
+});
+
+
+
+
+
+
+
 
 module.exports = router;

@@ -67,10 +67,26 @@ function EventDetails() {
 
   return (
     <div className="p-4" style={{ maxWidth: "600px", margin: "80px auto" }}>
+      {event.image && (
+        <img
+          src={`http://localhost:3000${event.image}`}
+          alt="Imagine eveniment"
+          style={{ width: "100%", maxHeight: "300px", objectFit: "cover", borderRadius: "10px", marginBottom: "20px" }}
+        />
+      )}
+
       <h1 style={{ fontSize: "1.8rem" }}>{event.title}</h1>
       <p>{event.description}</p>
       <p><strong>Locație:</strong> {event.location?.address || "Nespecificată"}</p>
-      <p><strong>Data:</strong> {new Date(event.date).toLocaleDateString()}</p>
+      <p>
+      <strong>Data & Ora:</strong>{" "}
+      {new Date(event.date).toLocaleDateString("ro-RO")} –{" "}
+      {new Date(event.date).toLocaleTimeString("ro-RO", {
+        hour: "2-digit",
+        minute: "2-digit",
+      })}
+    </p>
+
 
       <hr style={{ margin: "20px 0" }} />
 

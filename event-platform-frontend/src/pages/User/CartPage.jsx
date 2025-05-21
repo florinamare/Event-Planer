@@ -12,54 +12,123 @@ function CartPage() {
   const [expiry, setExpiry] = useState("");
   const [cvv, setCvv] = useState("");
   const [checkoutStarted, setCheckoutStarted] = useState(false);
+  const [localCart, setLocalCart] = useState([]);
+
+
+  const handleRemoveItem = async (eventId, type) => {
+    const token = localStorage.getItem("token");
+    const res = await fetch("http://localhost:3000/api/cart/remove", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ eventId, type }),
+    });
+  
+    const data = await res.json();
+    if (res.ok) {
+      setCartItems(data.cart.items);
+    } else {
+      setMessage(data.message || "Eroare la ștergere.");
+    }
+  };
+  
+  const handleQuantityChange = async (eventId, type, newQuantity) => {
+    if (newQuantity <= 0) return;
+  
+    const token = localStorage.getItem("token");
+  
+    try {
+      const res = await fetch("http://localhost:3000/api/cart/update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ eventId, type, quantity: newQuantity }), // 🟢 corect
+      });
+  
+      const data = await res.json();
+      if (res.ok) {
+        setCartItems(data.cart.items);
+      } else {
+        setMessage(data.message || "Eroare la actualizarea cantității.");
+      }
+    } catch (err) {
+      console.error("❌ Eroare la comunicarea cu serverul:", err);
+      setMessage("Eroare la comunicarea cu serverul.");
+    }
+  };
+  
+  
 
   useEffect(() => {
-    if (!user) return;
-
-    const fetchCart = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const res = await fetch("http://localhost:3000/api/cart", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        const data = await res.json();
-        if (res.ok) {
-          setCartItems(data.items || []);
-        } else {
-          console.error("Eroare:", data.message);
+    if (user) {
+      const fetchCart = async () => {
+        try {
+          const token = localStorage.getItem("token");
+          const res = await fetch("http://localhost:3000/api/cart", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const data = await res.json();
+          if (res.ok) {
+            setCartItems(data.items || []);
+            setLocalCart(data.items.map(item => ({ ...item }))); // copie locală
+          } else {
+            console.error("Eroare:", data.message);
+          }
+        } catch (err) {
+          console.error("Eroare server:", err);
+        } finally {
+          setLoading(false);
         }
-      } catch (err) {
-        console.error("Eroare server:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCart();
+      };
+      fetchCart();
+    }
   }, [user]);
+  
 
   const handlePaymentSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!cardName || !cardNumber || !expiry || !cvv) {
       setMessage("Te rugăm să completezi toate câmpurile.");
       return;
     }
-
+  
+    // 🟡 Sincronizăm localCart pe server
     try {
       const token = localStorage.getItem("token");
+  
+      for (const item of localCart) {
+        await fetch("http://localhost:3000/api/cart/update", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            eventId: item.event._id,
+            type: item.type,
+            quantity: item.quantity,
+          }),
+        });
+      }
+  
+      // 🔵 Trimitem request de checkout
       const res = await fetch("http://localhost:3000/api/cart/checkout", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
+  
       const data = await res.json();
       if (res.ok) {
         setMessage("✅ Checkout finalizat cu succes!");
         setCartItems([]);
+        setLocalCart([]);
         setCheckoutStarted(false);
         setCardName("");
         setCardNumber("");
@@ -69,9 +138,11 @@ function CartPage() {
         setMessage(data.message || "Eroare la checkout.");
       }
     } catch (err) {
+      console.error("❌ Eroare la server:", err);
       setMessage("Eroare la server.");
     }
   };
+  
 
   if (!user) return <p>Nu ești autentificat.</p>;
   if (loading) return <p>Se încarcă biletele din coș...</p>;
@@ -80,7 +151,7 @@ function CartPage() {
       setCheckoutStarted(true);
     };
   
-    const total = cartItems.reduce((sum, item) => {
+    const total = localCart.reduce((sum, item) => {
       const price = Number(item.price) || 0;
       const quantity = Number(item.quantity) || 0;
       return sum + price * quantity;
@@ -89,17 +160,43 @@ function CartPage() {
   return (
     <div style={{ padding: "2rem" }}>
       <h2>🛒 Coșul de Bilete</h2>
-      {cartItems.length === 0 ? (
+      {localCart.length === 0 ? (
         <p>Coșul tău este gol.</p>
       ) : (
         <>
           <ul>
-            {cartItems.map((item) => (
-              <li key={item._id}>
-                <strong>{item.event.title}</strong> – {item.quantity} x {item.type}
-              </li>
-            ))}
+          {localCart.map((item, index) => (
+            <li key={item._id}>
+              <strong>{item.event.title}</strong> –
+              <input
+                type="number"
+                min="1"
+                value={item.quantity}
+                onChange={(e) => {
+                  const updated = [...localCart];
+                  updated[index].quantity = parseInt(e.target.value);
+                  setLocalCart(updated);
+                }}
+                onBlur={() => {
+                  if (item.quantity !== cartItems[index]?.quantity) {
+                    handleQuantityChange(item.event._id, item.type, item.quantity);
+                  }
+                }}
+                style={{ width: "60px", marginLeft: "10px" }}
+              />
+              x {item.type}
+              <button
+                onClick={() => handleRemoveItem(item.event._id, item.type)}
+                style={{ marginLeft: "10px", color: "red" }}
+              >
+                🗑️ Șterge
+              </button>
+            </li>
+          ))}
           </ul>
+
+
+
           <p style={{ fontWeight: "bold", marginTop: "10px" }}>
             Total de plată: {total} EUR
           </p>

@@ -1,11 +1,22 @@
-// middleware/upload.js
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 
-// Setare destinație și denumire fișier
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // asigură-te că ai folderul uploads/
+    let folder = "uploads";
+
+    // Dacă e imagine pentru eveniment
+    if (req.originalUrl.includes("/events")) {
+      folder = "uploads/events";
+    }
+
+    // Creează folderul dacă nu există
+    if (!fs.existsSync(folder)) {
+      fs.mkdirSync(folder, { recursive: true });
+    }
+
+    cb(null, folder);
   },
   filename: (req, file, cb) => {
     const uniqueName = Date.now() + "-" + Math.round(Math.random() * 1e9);

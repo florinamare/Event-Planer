@@ -4,6 +4,8 @@ const Cart = require("../models/Cart");
 const Event = require("../models/Event");
 const { authMiddleware } = require("../middleware/auth");
 const Ticket = require("../models/Ticket");
+const QRCode = require("qrcode");
+
 
 // ✅ [GET] Obține coșul utilizatorului
 router.get("/", authMiddleware, async (req, res) => {
@@ -60,6 +62,30 @@ router.post("/add", authMiddleware, async (req, res) => {
   }
 });
 
+router.post("/update", authMiddleware, async (req, res) => {
+  const { eventId, type, quantity } = req.body;
+
+  if (!eventId || !type || quantity == null)
+    return res.status(400).json({ message: "Toate câmpurile sunt necesare." });
+
+  try {
+    const cart = await Cart.findOne({ user: req.user.id });
+    if (!cart) return res.status(404).json({ message: "Coșul nu a fost găsit." });
+
+    const item = cart.items.find(
+      (i) => i.event.toString() === eventId && i.type === type
+    );
+    if (!item) return res.status(404).json({ message: "Biletul nu a fost găsit în coș." });
+
+    item.quantity = quantity;
+    await cart.save();
+
+    res.json({ message: "Cantitate actualizată", cart });
+  } catch (err) {
+    res.status(500).json({ message: "Eroare la actualizarea cantității." });
+  }
+});
+
 
 
 
@@ -82,11 +108,9 @@ router.delete("/remove", authMiddleware, async (req, res) => {
   }
 });
 
-// POST /api/cart/checkout
 router.post("/checkout", authMiddleware, async (req, res) => {
   try {
     const userId = req.user.id;
-
     const cart = await Cart.findOne({ user: userId }).populate("items.event");
 
     if (!cart || cart.items.length === 0) {
@@ -96,18 +120,45 @@ router.post("/checkout", authMiddleware, async (req, res) => {
     const ticketsToSave = [];
 
     for (const item of cart.items) {
-      const ticketInfo = item.event.tickets?.find(t => t.type === item.type);
-      if (!ticketInfo) continue; // sare peste dacă nu găsește tipul de bilet
+      const event = item.event;
+      const ticket = event.tickets.find(t => t.type === item.type);
+
+      if (!ticket) {
+        return res.status(400).json({ message: `Tipul de bilet '${item.type}' nu există pentru evenimentul '${event.title}'` });
+      }
+
+      if (ticket.quantity < item.quantity) {
+        return res.status(400).json({
+          message: `Număr insuficient de bilete '${item.type}' la evenimentul '${event.title}'. Disponibile: ${ticket.quantity}`
+        });
+      }
+
+      // 🟡 Scade biletele
+      ticket.quantity -= item.quantity;
+
+      // 🟢 Generează QR
+      const qrPayload = {
+        userId: userId,
+        eventId: event._id,
+        ticketType: item.type,
+        quantity: item.quantity,
+        timestamp: Date.now()
+      };
+
+      const qrCodeData = await QRCode.toDataURL(JSON.stringify(qrPayload));
 
       ticketsToSave.push({
         user: userId,
-        event: item.event._id,
-        eventTitle: item.event.title,
+        event: event._id,
+        eventTitle: event.title,
         quantity: item.quantity,
-        price: ticketInfo.price,
+        price: ticket.price,
         ticketType: item.type,
+        qrCode: qrCodeData
       });
-      
+
+      // ✅ Salvează modificările la event (update în loc)
+      await event.save();
     }
 
     if (ticketsToSave.length === 0) {

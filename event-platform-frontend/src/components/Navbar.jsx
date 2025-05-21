@@ -81,6 +81,12 @@ function Navbar() {
             <div className="dropdown-menu">
               <Link to="/profile">Profilul Meu</Link>
               <Link to="/my-tickets">Biletele Mele</Link>
+              {user?.role === "organizer" && (
+                <li>
+                  <Link to="/my-events">Evenimentele Mele</Link>
+                </li>
+              )}
+
               <button onClick={() => { logout(); navigate("/auth"); }}>Deconectare</button>
             </div>
           )}

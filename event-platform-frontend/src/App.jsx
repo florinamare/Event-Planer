@@ -13,6 +13,8 @@ import ProfilePage from "./pages/User/ProfilePage";
 import MyTicketsPage from "./pages/User/MyTicketsPage";
 import EditProfile from "./pages/User/EditProfile";
 import CartPage from "./pages/User/CartPage";
+import MyEventsPage from "./pages/User/MyEventsPage";
+import EditEventPage from "./pages/Events/EditEventPage";
 
 function PrivateRoute({ children, role }) {
   const { user } = useContext(AuthContext);
@@ -76,12 +78,30 @@ function App() {
               </GuestRoute>
             }
           />
+          
 
           <Route path="/profile/edit" element={
             <PrivateRoute>
               <EditProfile />
             </PrivateRoute>
           } />
+
+          <Route
+            path="/my-events"
+            element={
+              <PrivateRoute role="organizer">
+                <MyEventsPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+          path="/edit-event/:id"
+          element={
+            <PrivateRoute role="organizer">
+              <EditEventPage />
+            </PrivateRoute>
+          }
+        />
 
           <Route
             path="/cart"
