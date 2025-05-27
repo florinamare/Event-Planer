@@ -3,7 +3,7 @@ import { useContext, useState, useEffect, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { ThemeContext } from "../context/ThemeContext";
 import { Link, useNavigate } from "react-router-dom";
-
+import "../App.css";
 
 
 function Navbar() {
@@ -60,7 +60,33 @@ function Navbar() {
 
         <div className={`nav-links ${isOpen ? "open" : ""}`}>
           <Link to="/" onClick={() => setIsOpen(false)}>Acasă</Link>
-          <Link to="/events" onClick={() => setIsOpen(false)}>Evenimente</Link>
+          <div className="relative group">
+          <button className="nav-link">Evenimente ⬇</button>
+
+          <div className="absolute left-0 top-full hidden group-hover:flex flex-col bg-white shadow-md rounded z-50 min-w-[160px] text-black">
+            {[
+              "concert",
+              "cinema",
+              "theatre",
+              "exhibition",
+              "sport",
+              "festival",
+              "conference",
+              "workshop",
+              "family",
+              "business"
+            ].map((type) => (
+              <Link
+                key={type}
+                to={`/events?type=${type}`}
+                className="px-4 py-2 hover:bg-blue-100 whitespace-nowrap"
+              >
+                {type[0].toUpperCase() + type.slice(1)}
+              </Link>
+            ))}
+          </div>
+        </div>
+
           <Link to="/map" onClick={() => setIsOpen(false)}>Harta Evenimentelor</Link>
 
           {/* ✅ Afișează doar pentru organizator și admin */}

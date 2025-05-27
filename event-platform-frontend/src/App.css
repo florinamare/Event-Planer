@@ -2,14 +2,14 @@
 body {
   margin: 0;
   font-family: "Arial", sans-serif;
-  background-color: #f4f4f9;
-  color: #333;
+  background-color: #F1F5F9; /* white */
+  color: #1e1e2e;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 /* ✅ Navbar */
 .navbar {
-  background-color: #0056b3;
+  background-color: #4682B4; /* Steel Blue */
   padding: 10px 0;
   position: fixed;
   width: 100%;
@@ -28,7 +28,7 @@ body {
 }
 
 .navbar h1 {
-  color: white;
+  color: #F1F5F9;
   margin: 0;
   font-size: 1.8rem;
 }
@@ -39,14 +39,14 @@ body {
 }
 
 .nav-links a {
-  color: white;
+  color: #F1F5F9;
   text-decoration: none;
   font-size: 1rem;
   padding: 10px;
 }
 
 .nav-links a:hover {
-  color: #ff7b00;
+  color: #508FB9; /* Blue Grotto */
 }
 
 /* ✅ Meniu Hamburger */
@@ -55,11 +55,10 @@ body {
   font-size: 1.8rem;
   background: none;
   border: none;
-  color: white;
+  color: #F1F5F9;
   cursor: pointer;
 }
 
-/* ✅ Responsive Navbar */
 @media (max-width: 768px) {
   .menu-toggle {
     display: block;
@@ -68,7 +67,7 @@ body {
   .nav-links {
     display: none;
     flex-direction: column;
-    background-color: #0056b3;
+    background-color: #4682B4;
     position: absolute;
     top: 60px;
     left: 0;
@@ -104,7 +103,7 @@ body {
   background: rgba(0, 0, 0, 0.4);
   padding: 15px 20px;
   border-radius: 10px;
-  color: white;
+  color: #F1F5F9;
 }
 
 /* ✅ Evenimente */
@@ -118,7 +117,7 @@ body {
 }
 
 .event-card {
-  background: white;
+  background: #ffffff;
   padding: 15px;
   border-radius: 10px;
   width: 250px;
@@ -143,7 +142,7 @@ body {
 
 .event-button {
   display: block;
-  background: #ff7b00;
+  background: #119DA4;
   color: white;
   border: none;
   padding: 10px;
@@ -153,12 +152,11 @@ body {
 }
 
 .event-button:hover {
-  background: #e06700;
+  background: #0f8890;
 }
 
-/* ✅ Auth Buttons */
 .auth-button {
-  background-color: #ff7b00;
+  background-color: #119DA4;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -169,7 +167,7 @@ body {
 }
 
 .auth-button:hover {
-  background-color: #e06700;
+  background-color: #0f8890;
 }
 
 .auth-buttons {
@@ -177,10 +175,9 @@ body {
   gap: 10px;
 }
 
-/* ✅ Tema Light / Dark */
 body[data-theme="light"] {
-  background-color: #f4f4f9;
-  color: #333;
+  background-color: #F1F5F9;
+  color: #1e1e2e;
 }
 
 body[data-theme="dark"] {
@@ -189,7 +186,7 @@ body[data-theme="dark"] {
 }
 
 body[data-theme="dark"] .navbar {
-  background-color: #222;
+  background-color: #333;
 }
 
 .theme-toggle {
@@ -197,7 +194,7 @@ body[data-theme="dark"] .navbar {
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: white;
+  color: #F1F5F9;
 }
 
 .theme-toggle:hover {
@@ -214,15 +211,15 @@ body[data-theme="dark"] .navbar {
   border: none;
   cursor: pointer;
   font-weight: bold;
-  color: white;
+  color: #F1F5F9;
 }
 
 .dropdown-menu {
   display: none;
   position: absolute;
-  top: 100%; /* chiar sub buton */
+  top: 100%;
   right: 0;
-  background-color: white;
+  background-color: #ffffff;
   border: 1px solid #ccc;
   padding: 10px;
   min-width: 150px;
@@ -230,7 +227,6 @@ body[data-theme="dark"] .navbar {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Afișează meniul când e hover pe .user-dropdown sau e focus în interior */
 .user-dropdown:hover .dropdown-menu,
 .user-dropdown:focus-within .dropdown-menu {
   display: block;
@@ -251,7 +247,7 @@ body[data-theme="dark"] .navbar {
 
 .dropdown-menu a:hover,
 .dropdown-menu button:hover {
-  background-color: #f4f4f4;
+  background-color: #B3DBF4; /* baby blue */
 }
 
 .profile-page {
@@ -267,7 +263,7 @@ body[data-theme="dark"] .navbar {
 .profile-page h2 {
   font-size: 1.8rem;
   margin-bottom: 20px;
-  color: #0056b3;
+  color: #508FB9;
 }
 
 .profile-page p {
@@ -283,7 +279,7 @@ body[data-theme="dark"] .navbar {
 }
 
 .profile-page .auth-button {
-  background-color: #0056b3;
+  background-color: #508FB9;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -295,17 +291,16 @@ body[data-theme="dark"] .navbar {
 }
 
 .profile-page .auth-button:hover {
-  background-color: #004299;
+  background-color: #437aa1;
 }
 
 .auth-button.cart {
-  background-color: #28a745;
+  background-color: #6D9DC5;
 }
 
 .auth-button.cart:hover {
-  background-color: #218838;
+  background-color: #5d8ab1;
 }
-
 
 .search-form {
   margin-left: 20px;
@@ -327,7 +322,3 @@ body[data-theme="dark"] .navbar {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
 }
-
-
-
-

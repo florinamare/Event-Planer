@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 function CreateEvent() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [type, setType] = useState("Concert");
+  const [type, setType] = useState("concert");
   const [eventDate, setEventDate] = useState("");
   const [location, setLocation] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -103,17 +103,23 @@ function CreateEvent() {
           required
         />
         <select
-          className="border p-2 rounded"
-          value={type}
-          onChange={(e) => setType(e.target.value)}
-          required
-        >
-          <option value="conference">Conferință</option>
-          <option value="festival">Festival</option>
-          <option value="sport">Sport</option>
-          <option value="workshop">Atelier</option>
-          <option value="Concert">Concert</option>
-        </select>
+        className="border p-2 rounded"
+        value={type}
+        onChange={(e) => setType(e.target.value)}
+        required
+      >
+        <option value="conference">Conference</option>
+        <option value="festival">Festival</option>
+        <option value="sport">Sport</option>
+        <option value="workshop">Workshop</option>
+        <option value="concert">Concert</option>
+        <option value="theatre">Theatre</option>
+        <option value="cinema">Cinema</option>
+        <option value="exhibition">Exhibition</option>
+        <option value="business">Business</option>
+        <option value="family">Family</option>
+      </select>
+
 
         <label>Data și ora evenimentului:</label>
         <input

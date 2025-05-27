@@ -1,20 +1,19 @@
-
 /* index.css */
 @import "leaflet/dist/leaflet.css";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  --primary-blue: #4682B4;       /* Steel Blue */
+  --accent-cyan: #119DA4;
+  --secondary-blue: #6D9DC5;
+  --highlight: #80DED9;
+  --background: #AEECEF;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --text-dark: #1e1e2e;
+  --text-light: #ffffff;
 }
 
 a {
@@ -70,6 +69,3 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
-
-
-
