@@ -7,6 +7,8 @@ function MyTicketsPage() {
   const { user } = useContext(AuthContext);
   const [tickets, setTickets] = useState({ active: [], expired: [] });
   const [loading, setLoading] = useState(true);
+  const totalActive = tickets.active.reduce((sum, t) => sum + t.price * t.quantity, 0);
+  const totalExpired = tickets.expired.reduce((sum, t) => sum + t.price * t.quantity, 0);
 
   const generatePDF = async (ticketId) => {
     const element = document.getElementById(`ticket-${ticketId}`);
@@ -32,6 +34,12 @@ function MyTicketsPage() {
 
   useEffect(() => {
     if (!user) return;
+    if (tickets.active.length > 0) {
+      console.log("🟢 Bilete active:", tickets.active);
+    }
+    if (tickets.expired.length > 0) {
+      console.log("🔴 Bilete expirate:", tickets.expired);
+    }
 
     const fetchTickets = async () => {
       try {
@@ -71,7 +79,9 @@ function MyTicketsPage() {
               ) : (
                 <ul>
                   {tickets.active.map((ticket) => (
+                    
         <div key={ticket._id} style={{ marginBottom: "2rem" }}>
+
           {/* zona PDF – doar această parte se salvează */}
           <div
             id={`ticket-${ticket._id}`}
@@ -93,7 +103,9 @@ function MyTicketsPage() {
             <p><strong>Tip:</strong> {ticket.ticketType}</p>
             <p><strong>Cantitate:</strong> {ticket.quantity}</p>
             <p><strong>Preț:</strong> {ticket.price} EUR</p>
+            <p><strong>Total tranzacție:</strong> {ticket.price * ticket.quantity} EUR</p>
             <p><strong>Dată:</strong> {new Date(ticket.event?.date).toLocaleDateString()}</p>
+            
 
             <div style={{ marginTop: "1.5rem" }}>
               <img
@@ -165,6 +177,10 @@ function MyTicketsPage() {
                  <p><strong>Tip:</strong> {ticket.ticketType}</p>
                  <p><strong>Cantitate:</strong> {ticket.quantity}</p>
                  <p><strong>Preț:</strong> {ticket.price} EUR</p>
+                 <p style={{ fontWeight: "bold", fontSize: "18px", marginTop: "1rem", color: "#999" }}>
+                Total plătit pentru bilete expirate: {totalExpired.toFixed(2)} EUR
+              </p>
+
                  <p><strong>Dată:</strong> {new Date(ticket.event?.date).toLocaleDateString()}</p>
            
                  <div style={{ marginTop: "1.5rem" }}>

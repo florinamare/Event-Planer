@@ -108,6 +108,8 @@ router.delete("/remove", authMiddleware, async (req, res) => {
   }
 });
 
+
+// ✅ [POST] Checkout - finalizează comanda
 router.post("/checkout", authMiddleware, async (req, res) => {
   try {
     const userId = req.user.id;
