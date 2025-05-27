@@ -77,7 +77,23 @@ function EventDetails() {
 
       <h1 style={{ fontSize: "1.8rem" }}>{event.title}</h1>
       <p>{event.description}</p>
-      <p><strong>Locație:</strong> {event.location?.address || "Nespecificată"}</p>
+      <p>
+  <strong>Locație:</strong> {event.location?.address || "Nespecificată"}
+  {event.location?.address && (
+    <>
+      {" "}
+      <a
+        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location.address)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ color: "#0056b3", marginLeft: "10px", fontWeight: "bold", textDecoration: "underline" }}
+      >
+        Vezi pe Google Maps
+      </a>
+    </>
+  )}
+</p>
+
       <p>
       <strong>Data & Ora:</strong>{" "}
       {new Date(event.date).toLocaleDateString("ro-RO")} –{" "}

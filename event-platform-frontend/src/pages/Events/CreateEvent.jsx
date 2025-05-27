@@ -8,10 +8,26 @@ function CreateEvent() {
   const [type, setType] = useState("Concert");
   const [eventDate, setEventDate] = useState("");
   const [location, setLocation] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
   const [image, setImage] = useState(null);
   const [tickets, setTickets] = useState([{ type: "", price: "", quantity: "" }]);
 
   const navigate = useNavigate();
+
+  const fetchLocationSuggestions = async (query) => {
+    if (query.length < 3) return setSuggestions([]);
+  
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&limit=5`
+      );
+      const data = await res.json();
+      setSuggestions(data);
+    } catch (err) {
+      console.error("Eroare la autocomplete locație:", err);
+    }
+  };
+  
 
   const handleTicketChange = (index, field, value) => {
     const updated = [...tickets];
@@ -107,14 +123,37 @@ function CreateEvent() {
           required
         />
 
-        <input
-          type="text"
-          placeholder="Locație"
-          className="border p-2 rounded"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          required
-        />
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Locație"
+              className="border p-2 rounded w-full"
+              value={location}
+              onChange={(e) => {
+                const value = e.target.value;
+                setLocation(value);
+                fetchLocationSuggestions(value);
+              }}
+              required
+            />
+            {suggestions.length > 0 && (
+              <ul className="absolute z-50 bg-white border rounded shadow-md w-full max-h-40 overflow-y-auto">
+                {suggestions.map((item, idx) => (
+                  <li
+                    key={idx}
+                    onClick={() => {
+                      setLocation(item.display_name);
+                      setSuggestions([]);
+                    }}
+                    className="p-2 hover:bg-blue-100 cursor-pointer"
+                  >
+                    {item.display_name}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
 
         <label>Imagine Eveniment:</label>
         <input type="file" onChange={(e) => setImage(e.target.files[0])} />

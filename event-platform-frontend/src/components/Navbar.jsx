@@ -4,6 +4,8 @@ import { AuthContext } from "../context/AuthContext";
 import { ThemeContext } from "../context/ThemeContext";
 import { Link, useNavigate } from "react-router-dom";
 
+
+
 function Navbar() {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { user, logout } = useContext(AuthContext);
@@ -12,6 +14,18 @@ function Navbar() {
   const dropdownRef = useRef();
   const [showDropdown, setShowDropdown] = useState(false);
   const toggleDropdown = () => setShowDropdown(!showDropdown);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      navigate(`/search?query=${encodeURIComponent(searchTerm)}`);
+      setSearchTerm("");
+      setIsOpen(false); // închide meniul mobil dacă e deschis
+    }
+  };
+  
+  
 
 
   useEffect(() => {
@@ -30,6 +44,15 @@ function Navbar() {
     <nav className="navbar">
       <div className="container">
         <h1 className="logo">Event Platform</h1>
+        <form onSubmit={handleSearch} className="search-form">
+        <input
+          type="text"
+          placeholder="Caută evenimente..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+      </form>
 
         <button className="menu-toggle" onClick={() => setIsOpen(!isOpen)}>
           ☰
@@ -44,6 +67,13 @@ function Navbar() {
           {(user?.role === "organizer" || user?.role === "admin") && (
             <Link to="/create-event" onClick={() => setIsOpen(false)}>Adaugă Eveniment</Link>
           )}
+
+          {user?.role === "admin" && (
+            <Link to="/admin-panel" className="nav-link">
+              Admin
+            </Link>
+        )}
+
         </div>
 
 

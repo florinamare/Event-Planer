@@ -3,6 +3,16 @@ const router = express.Router();
 const { authMiddleware } = require('../middleware/auth');
 const Event = require('../models/Event');
 const upload = require("../middleware/upload");
+const fetch = require("node-fetch"); // dacă nu l-ai deja
+
+async function geocodeAddress(address) {
+  const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
+  const data = await res.json();
+  if (data.length > 0) {
+    return [parseFloat(data[0].lon), parseFloat(data[0].lat)]; // [lon, lat]
+  }
+  return null;
+}
 
 
 // Crearea unui eveniment nou (acces doar pentru organizatori/admini)
@@ -15,6 +25,11 @@ router.post("/", authMiddleware, upload.fields([{ name: "image", maxCount: 1 }])
   const imagePath = req.files?.image?.[0]
     ? `/uploads/events/${req.files.image[0].filename}`
     : null;
+    const coords = await geocodeAddress(req.body.location);
+    if (!coords) {
+      return res.status(400).json({ message: "Locația nu a putut fi geocodată." });
+    }
+    
 
   // Extrage biletele din req.body
         let tickets = [];
@@ -40,7 +55,10 @@ router.post("/", authMiddleware, upload.fields([{ name: "image", maxCount: 1 }])
       description: req.body.description,
       type: req.body.type,
       date: req.body.date,
-      location: { address: req.body.location },
+      location: {
+        address: req.body.location,
+        coordinates: coords, // [lon, lat]
+      },      
       image: imagePath,
       tickets,
       organizer: req.user.id,
@@ -75,6 +93,26 @@ router.get("/my", authMiddleware, async (req, res) => {
     res.status(500).json({ message: "Eroare la preluarea evenimentelor" });
   }
 });
+
+router.get("/search", async (req, res) => {
+  const { q } = req.query;
+
+  try {
+    const results = await Event.find({
+      $or: [
+        { title: { $regex: q, $options: "i" } },
+        { description: { $regex: q, $options: "i" } },
+        { "location.address": { $regex: q, $options: "i" } },
+      ],
+    });
+
+    res.json(results);
+  } catch (err) {
+    console.error("❌ Eroare la căutare:", err);
+    res.status(500).json({ message: "Eroare la căutare" });
+  }
+});
+
 
 // ✅ Obține un eveniment după ID
 router.get("/:id", async (req, res) => {
@@ -158,6 +196,8 @@ router.delete("/:id", authMiddleware, async (req, res) => {
     res.status(500).json({ message: "Eroare internă" });
   }
 });
+
+
 
 
 

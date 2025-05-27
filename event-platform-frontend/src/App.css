@@ -307,6 +307,27 @@ body[data-theme="dark"] .navbar {
 }
 
 
+.search-form {
+  margin-left: 20px;
+}
+
+.search-input {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.search-results-page {
+  padding: 20px;
+}
+
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
 
 
 

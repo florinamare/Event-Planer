@@ -1,5 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 
 const ForceMapResize = () => {
   const map = useMap();
@@ -13,7 +15,6 @@ const ForceMapResize = () => {
 
 const EventsMap = () => {
   const [events, setEvents] = useState([]);
-  const [pins, setPins] = useState([]);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -24,29 +25,6 @@ const EventsMap = () => {
     fetchEvents();
   }, []);
 
-  const geocode = async (address) => {
-    const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
-    const data = await res.json();
-    if (data.length > 0) {
-      return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
-    }
-    return null;
-  };
-
-  useEffect(() => {
-    const loadCoords = async () => {
-      const newPins = [];
-      for (const event of events) {
-        if (event.location?.address) {
-          const coords = await geocode(event.location.address);
-          if (coords) newPins.push({ ...event, coords });
-        }
-      }
-      setPins(newPins);
-    };
-    if (events.length > 0) loadCoords();
-  }, [events]);
-
   return (
     <MapContainer center={[45.9432, 24.9668]} zoom={6} scrollWheelZoom={true} style={{ height: "100%", width: "100%" }}>
       <TileLayer
@@ -54,15 +32,41 @@ const EventsMap = () => {
         attribution="&copy; OpenStreetMap contributors"
       />
       <ForceMapResize />
-      {pins.map((event, idx) => (
-        <Marker key={idx} position={[event.coords.lat, event.coords.lon]}>
-          <Popup>
-            <strong>{event.title}</strong>
-            <br />
-            {event.location?.address}
-          </Popup>
-        </Marker>
-      ))}
+
+      {events
+        .filter(e => e.location?.coordinates?.length === 2)
+        .map((event) => (
+          <Marker
+            key={event._id}
+            position={[
+              event.location.coordinates[1], // lat
+              event.location.coordinates[0], // lon
+            ]}
+          >
+            <Popup>
+              <div>
+                <strong>{event.title}</strong><br />
+                <p>{event.location?.address}</p>
+                <Link
+                  to={`/events/${event._id}`}
+                  style={{
+                    display: "inline-block",
+                    marginTop: "8px",
+                    padding: "6px 12px",
+                    backgroundColor: "#0056b3",
+                    color: "#fff",
+                    textDecoration: "none",
+                    borderRadius: "5px"
+                  }}
+                >
+                  Vezi detalii
+                </Link>
+
+              </div>
+            </Popup>
+
+          </Marker>
+        ))}
     </MapContainer>
   );
 };

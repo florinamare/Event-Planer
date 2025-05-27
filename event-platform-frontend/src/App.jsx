@@ -16,6 +16,10 @@ import CartPage from "./pages/User/CartPage";
 import MyEventsPage from "./pages/User/MyEventsPage";
 import EditEventPage from "./pages/Events/EditEventPage";
 import EventsMapPage from "./pages/Events/EvetsMapPage";
+import AdminPanel from "./pages/Auth/AdminPanel";
+import SearchResults from "./pages/Events/SearchResults"; // sau calea corectă la tine
+
+
 
 
 function PrivateRoute({ children, role }) {
@@ -45,6 +49,8 @@ function App() {
           <Route path="/events" element={<EventsList />} />
           <Route path="/events/:id" element={<EventDetails />} />
           <Route path="/map" element={<EventsMapPage />} />
+          <Route path="/search" element={<SearchResults />} />
+
 
           
           <Route
@@ -55,6 +61,7 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route path="/admin-panel" element={<AdminPanel />} />
 
           <Route
             path="/my-tickets"

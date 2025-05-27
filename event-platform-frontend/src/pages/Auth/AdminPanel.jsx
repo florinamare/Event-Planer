@@ -1,10 +1,11 @@
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-
+import { useNavigate } from "react-router-dom";
 
 function AdminPanel() {
   const { user } = useContext(AuthContext);
   const [pendingUsers, setPendingUsers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -17,6 +18,8 @@ function AdminPanel() {
         .then((res) => res.json())
         .then((data) => setPendingUsers(data))
         .catch((err) => console.error("Eroare la fetch:", err));
+    } else {
+      navigate("/"); // redirecționează dacă nu e admin
     }
   }, [user]);
 
@@ -31,9 +34,9 @@ function AdminPanel() {
       });
       if (res.ok) {
         setPendingUsers((prev) => prev.filter((u) => u._id !== id));
-        alert("Utilizator aprobat!");
+        alert("✅ Utilizator aprobat ca organizator!");
       } else {
-        alert("Eroare la aprobare");
+        alert("❌ Eroare la aprobare");
       }
     } catch (err) {
       console.error(err);
@@ -41,20 +44,42 @@ function AdminPanel() {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Aprobă Organizatori</h2>
+    <div style={{ maxWidth: "600px", margin: "80px auto" }}>
+      <h2 style={{ fontSize: "1.5rem", marginBottom: "20px" }}>🛠️ Panel Administrator</h2>
+      <h4>Cereri de organizatori:</h4>
       {pendingUsers.length === 0 ? (
-        <p>Nu sunt utilizatori de aprobat.</p>
+        <p>Nu sunt cereri în așteptare.</p>
       ) : (
-        <ul className="space-y-2">
+        <ul style={{ listStyle: "none", padding: 0 }}>
           {pendingUsers.map((user) => (
-            <li key={user._id} className="border p-2 rounded flex justify-between items-center">
-              <span>{user.email}</span>
+            <li
+              key={user._id}
+              style={{
+                border: "1px solid #ccc",
+                borderRadius: "10px",
+                padding: "10px",
+                marginBottom: "10px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <div>
+                <strong>{user.name}</strong> <br />
+                {user.email}
+              </div>
               <button
                 onClick={() => approveUser(user._id)}
-                className="bg-green-600 text-white px-4 py-1 rounded"
+                style={{
+                  backgroundColor: "#28a745",
+                  color: "white",
+                  border: "none",
+                  padding: "8px 12px",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
               >
-                Aproba
+                ✅ Aproba
               </button>
             </li>
           ))}
