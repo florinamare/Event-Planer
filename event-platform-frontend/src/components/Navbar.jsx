@@ -38,6 +38,7 @@ function Navbar() {
         <div className={`nav-links ${isOpen ? "open" : ""}`}>
           <Link to="/" onClick={() => setIsOpen(false)}>Acasă</Link>
           <Link to="/events" onClick={() => setIsOpen(false)}>Evenimente</Link>
+          <Link to="/map" onClick={() => setIsOpen(false)}>Harta Evenimentelor</Link>
 
           {/* ✅ Afișează doar pentru organizator și admin */}
           {(user?.role === "organizer" || user?.role === "admin") && (

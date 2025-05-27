@@ -1,0 +1,12 @@
+.map-wrapper {
+    height: calc(100vh - 100px); /* ajustează dacă navbarul e mai mic/mare */
+    width: 100%;
+    padding-top: 60px;
+  }
+  
+  .map-title {
+    margin-left: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
+  }
+  

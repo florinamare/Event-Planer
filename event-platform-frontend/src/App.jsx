@@ -15,6 +15,8 @@ import EditProfile from "./pages/User/EditProfile";
 import CartPage from "./pages/User/CartPage";
 import MyEventsPage from "./pages/User/MyEventsPage";
 import EditEventPage from "./pages/Events/EditEventPage";
+import EventsMapPage from "./pages/Events/EvetsMapPage";
+
 
 function PrivateRoute({ children, role }) {
   const { user } = useContext(AuthContext);
@@ -42,6 +44,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/events" element={<EventsList />} />
           <Route path="/events/:id" element={<EventDetails />} />
+          <Route path="/map" element={<EventsMapPage />} />
+
           
           <Route
             path="/create-event"
