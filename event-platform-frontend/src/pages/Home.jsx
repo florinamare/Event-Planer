@@ -1,15 +1,11 @@
-import { Link } from "react-router-dom";
-import "../App.css";
+import HomeBanner from "../components/HomeBanner";
 
 function Home() {
   return (
     <div>
+      <HomeBanner />
       
-
-      {/* HERO SECTION */}
-      <header className="hero">
-        <h1>Descoperă Evenimente Unice</h1>
-      </header>
+      {/* test vizual Tailwind */}
     </div>
   );
 }

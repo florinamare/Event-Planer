@@ -1,41 +1,44 @@
 /* index.css */
 @import "leaflet/dist/leaflet.css";
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --primary-blue: #4682B4;       /* Steel Blue */
-  --accent-cyan: #119DA4;
-  --secondary-blue: #6D9DC5;
-  --highlight: #80DED9;
-  --background: #AEECEF;
+  --light-gray: #E8E8E8;        /* fundal neutru */
+  --primary-green: #6EB5AA;     /* culoarea principală aleasă de tine */
+  --dark-green: #407F78;        /* ton mai închis pentru hover sau accent */
+  --light-green: #B5DCD5;       /* ton mai deschis pentru fundaluri */
+  --accent-gold: #C89459;       /* accent cald pentru contraste sau butoane */
 
-  --text-dark: #1e1e2e;
-  --text-light: #ffffff;
+  --text-dark: #1E1E2E;         /* pentru fundaluri deschise */
+  --text-light: #ffffff;        /* pentru fundaluri închise */
 }
+
 
 a {
   font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+  color: var(--medium-green);
+  text-decoration: none;
+  transition: color 0.2s;
 }
 a:hover {
-  color: #535bf2;
+  color: var(--earth-gold);
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--light-gray);
+  color: var(--dark-green);
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  color: var(--dark-green);
 }
 
 button {
@@ -45,12 +48,14 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--medium-green);
+  color: white;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: background-color 0.25s, border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  background-color: var(--light-green);
+  border-color: var(--dark-green);
 }
 button:focus,
 button:focus-visible {
@@ -59,13 +64,15 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    background-color: var(--light-gray);
   }
+
   a:hover {
-    color: #747bff;
+    color: var(--earth-gold);
   }
+
   button {
-    background-color: #f9f9f9;
+    background-color: var(--medium-green);
+    color: white;
   }
 }
