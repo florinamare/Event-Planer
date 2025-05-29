@@ -1,21 +1,22 @@
+
 /* ✅ General */
 body {
   margin: 0;
-  font-family: "Arial", sans-serif;
-  background-color: #E6E6E6;
-  color: #1D5C5F;
+  font-family: 'Rethink Sans', sans-serif;
+  background-color: #e8e8e8;
+  color: #6eb5aa;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 /* ✅ Navbar */
 .navbar {
-  background-color: #6EB5AA;
-  padding: 10px 0;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  height: 120px;
+  display: flex;
+  align-items: center;
 }
 
 .navbar .container {
@@ -24,7 +25,6 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  flex-wrap: wrap;
 }
 
 .navbar h1 {
@@ -33,178 +33,170 @@ body {
   font-size: 1.8rem;
 }
 
+/* ✅ Linkuri navbar */
 .nav-links {
   display: flex;
-  gap: 20px;
+  gap: 10px;
   align-items: center;
 }
 
-.nav-link {
-  color: white;
+.nav-link,
+button.nav-link,
+.user-button {
+  color: rgb(5, 5, 5);
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 1.2rem;
   font-weight: 500;
   padding: 10px 16px;
-  background: none;
-  border: 2px solid transparent;
+  background: none !important;
+  border: none !important;
   border-radius: 6px;
   transition: all 0.25s ease-in-out;
-  font-family: 'Segoe UI', sans-serif;
-}
-
-.nav-link:hover {
-  background-color: #2A9D8F;
-  color: white;
-}
-
-.active-link {
-  background-color: #A8DADC;
-  border: 2px solid #C89459;
-  color: #1D5C5F !important;
-  font-weight: 600;
-}
-
-/* ✅ Meniu Hamburger */
-.menu-toggle {
-  display: none;
-  font-size: 1.8rem;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
-
-/* ✅ Responsive Navbar */
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: block;
-  }
-
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    background-color: #6EB5AA;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    padding: 15px;
-    text-align: center;
-  }
-
-  .nav-links.open {
-    display: flex;
-  }
-
-  .auth-button {
-    width: 100%;
-    margin-top: 10px;
-  }
-}
-
-/* ✅ Hero */
-.hero {
-  background: url('/banner.jpg') center/cover no-repeat;
-  height: 50vh;
+  font-family: 'Rethink Sans', sans-serif;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  padding: 20px;
+  box-sizing: border-box;
+}
+
+.nav-link:hover,
+button.nav-link:hover,
+.user-button:hover {
+  background-color: transparent !important;
+  color: #278c87;
+}
+
+/* ✅ Linkuri active */
+.nav-link.active-link {
+  color: #278c87;
+}
+
+.nav-link.active-link::after {
   width: 100%;
 }
 
-.hero h1 {
-  font-size: 2.5rem;
-  background: rgba(0, 0, 0, 0.4);
-  padding: 15px 20px;
-  border-radius: 10px;
-  color: white;
+/* ✅ Underline animat */
+.nav-link {
+  position: relative;
+  overflow: hidden;
 }
 
-/* ✅ Evenimente */
-.event-container {
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 6px;
+  width: 0;
+  height: 2px;
+  background-color: #278c87;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active-link::after {
+  width: 100%;
+}
+
+/* ✅ Dropdown meniu */
+.user-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #78bdb4;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: none;
+  flex-direction: column;
+  min-width: 160px;
+  z-index: 50;
+  position : absolute;
+}
+
+.user-dropdown:hover .dropdown-menu,
+.user-dropdown:focus-within .dropdown-menu {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
-  justify-content: center;
-  margin-top: 100px;
 }
 
-.event-card {
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
-  width: 250px;
-  text-align: center;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
-}
-
-.event-card:hover {
-  transform: scale(1.05);
-}
-
-.event-card img {
-  width: 100%;
-  border-radius: 10px;
-}
-
-.event-card h3 {
-  margin: 10px 0;
-  font-size: 1.2rem;
-}
-
-.event-button {
-  display: block;
-  background: #2A9D8F;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
+.dropdown-menu a,
+.dropdown-menu button {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 0 14px;
   text-decoration: none;
-  margin-top: 10px;
-}
-
-.event-button:hover {
-  background: #1D5C5F;
-}
-
-/* ✅ Auth Buttons */
-.auth-button {
-  background-color: #2A9D8F;
   color: white;
+  background: none;
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-left: 15px;
-  font-size: 1rem;
+  width: 100%;
+  text-align: left;
+  font-weight: 500;
+  font-family: 'Rethink Sans', sans-serif;
+  transition: background-color 0.2s ease-in-out;
 }
 
-.auth-button:hover {
-  background-color: #1D5C5F;
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+  background-color: #c69762;
+  color: #ffffff;
 }
 
-.auth-buttons {
-  display: flex;
-  gap: 10px;
+.dropdown-menu .active-link {
+  color: #278c87;
+  font-weight: bold;
 }
 
-/* ✅ Tema Light / Dark */
-body[data-theme="light"] {
-  background-color: #E6E6E6;
-  color: #1D5C5F;
-}
-
+/* ✅ Tema Light/Dark */
 body[data-theme="dark"] {
   background-color: #1e1e2e;
   color: white;
 }
 
 body[data-theme="dark"] .navbar {
-  background-color: #6EB5AA;
+  background: linear-gradient(90deg, #1d5c5f, #2a9d8f);
+}
+
+body[data-theme="dark"] .nav-link,
+body[data-theme="dark"] .user-button {
+  color: white;
+}
+
+body[data-theme="dark"] .nav-link.active-link {
+  color: #a8dadc;
+}
+
+/* ✅ Alte componente */
+.auth-button,
+.auth-button.cart {
+  font-size: 1rem;
+  border-radius: 6px;
+  font-family: 'Rethink Sans', sans-serif;
+  padding: 10px 15px;
+  cursor: pointer;
+  border: none;
+  margin-left: 0;
+}
+
+.auth-button {
+  background-color: #278c87;
+  color: white;
+}
+
+.auth-button:hover {
+  background-color: #6eb5aa;
+}
+
+.auth-button.cart {
+  background-color: #c69762;
+}
+
+.auth-button.cart:hover {
+  background-color: #9c794a;
 }
 
 .theme-toggle {
@@ -219,149 +211,65 @@ body[data-theme="dark"] .navbar {
   opacity: 0.8;
 }
 
-.user-dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.user-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  color: white;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #A8DADC;
-  border-radius: 6px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  display: none;
-  flex-direction: column;
-  min-width: 160px;
-  z-index: 999;
-}
-
-.user-dropdown:hover .dropdown-menu,
-.user-dropdown:focus-within .dropdown-menu {
-  display: block;
-}
-
-.dropdown-menu a,
-.dropdown-menu button {
-  display: block;
-  padding: 8px;
-  text-decoration: none;
-  color: #1D5C5F;
-  background: none;
-  border: none;
+/* ✅ Stil pentru bannere */
+.banner-slide img {
+  object-fit: cover;
   width: 100%;
-  text-align: left;
-  cursor: pointer;
+  height: 100%;
+  filter: brightness(0.80);
+  transition: transform 0.5s ease;
 }
 
-.dropdown-menu a:hover,
-.dropdown-menu button:hover {
-  background-color: #C89459;
+.banner-slide:hover img {
+  transform: scale(1.03);
 }
 
-.profile-page {
-  max-width: 600px;
-  margin: 100px auto 50px;
-  padding: 30px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 10;
+}
+
+.banner-text {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
   text-align: center;
+  color: #ffffff;
+  padding: 0 16px;
 }
 
-.profile-page h2 {
-  font-size: 1.8rem;
-  margin-bottom: 20px;
-  color: #1D5C5F;
+.banner-title {
+  font-size: 2.5rem;           /* ajustează după dorință, ex: 2.5rem = 40px */
+  color: #ffffff;            /* schimbă cu orice culoare pastel sau închisă */
+  font-weight: 600;
+  font-family: 'Rethink Sans', sans-serif;
+  margin-bottom: 12px;
 }
 
-.profile-page p {
-  font-size: 1.1rem;
-  margin: 10px 0;
-}
 
-.profile-page img {
-  margin-top: 15px;
-  border: 2px solid #ccc;
-  padding: 4px;
-  border-radius: 10px;
-}
-
-.profile-page .auth-button {
-  background-color: #2A9D8F;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  margin-top: 25px;
-  font-size: 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.profile-page .auth-button:hover {
-  background-color: #1D5C5F;
-}
-
-.auth-button.cart {
-  background-color: #C89459;
-}
-
-.auth-button.cart:hover {
-  background-color: #9c794a;
-}
-
-.search-form {
-  margin-left: 20px;
-}
-
-.search-input {
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
-.search-results-page {
-  padding: 20px;
-}
-
-.event-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.navbar .container {
-  padding: 0;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
+.banner-link {
+  color: #ffffff;
+  font-size: 2rem;
   text-decoration: none;
-  margin-left: 0;
-  margin-right: 20px;
-  margin-left: 20px;
+  transition: color 0.3s ease;
 }
 
-.logo img {
-  height: 70px;
-  width: auto;
-  object-fit: contain;
-  display: block;
-  transition: transform 0.2s ease-in-out;
+.banner-link:hover {
+  text-decoration: underline;
+  color: #a7773e;
 }
 
-.logo-img:hover {
-  transform: scale(1.05);
+/* Stil pentru punctele Swiper */
+.swiper-pagination-bullet {
+  background-color: white !important;
+  opacity: 0.6;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: rgb(204, 196, 196) !important;
+  opacity: 1;
 }
