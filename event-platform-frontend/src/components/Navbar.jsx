@@ -50,13 +50,14 @@ const eventDropdownRef = useRef();
         </Link>
 
         <form onSubmit={handleSearch} className="search-form">
-          <input
-            type="text"
-            placeholder="Caută evenimente..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-input"
-          />
+        <input
+  type="text"
+  placeholder="Caută evenimente..."
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+  className="search-input outline outline-2 outline-[#000000] rounded-md px-3 py-1"
+/>
+
         </form>
 
         <div className="nav-links">
@@ -142,7 +143,7 @@ const eventDropdownRef = useRef();
                   alt="Avatar"
                   style={{ width: "32px", height: "32px", borderRadius: "50%", objectFit: "cover", marginRight: "8px" }}
                 />
-                {user.name || "Cont"} ⬇
+                {user.name || "Cont"} 
               </button>
 
               {showUserDropdown && (

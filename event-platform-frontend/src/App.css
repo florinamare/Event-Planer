@@ -273,3 +273,13 @@ body[data-theme="dark"] .nav-link.active-link {
   background-color: rgb(204, 196, 196) !important;
   opacity: 1;
 }
+
+/* no scroll bar*/
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE */
+  scrollbar-width: none;  /* Firefox */
+}

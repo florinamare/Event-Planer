@@ -106,7 +106,7 @@ function SignInSignUp() {
               </div>
             </fieldset>
             <button type="submit" className="btn-login">
-              Login
+              Autentificare
             </button>
           </form>
         </div>

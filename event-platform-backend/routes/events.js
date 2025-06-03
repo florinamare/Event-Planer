@@ -84,6 +84,42 @@ router.get('/', async (req, res) => {
   }
 });
 
+//Evenimente adaugate recent
+router.get("/recent", async (req, res) => {
+  try {
+    const recentEvents = await Event.find().sort({ createdAt: -1 }).limit(10);
+    res.json(recentEvents);
+  } catch (err) {
+    res.status(500).json({ message: "Eroare la evenimentele recente" });
+  }
+});
+
+//Evenimente ce urmeaza curand
+router.get("/soon", async (req, res) => {
+  try {
+    const soonEvents = await Event.find({ date: { $gte: new Date() } })
+      .sort({ date: 1 })
+      .limit(10);
+    res.json(soonEvents);
+  } catch (err) {
+    res.status(500).json({ message: "Eroare la evenimentele în curând" });
+  }
+});
+
+//Evenimente populare
+router.get("/popular", async (req, res) => {
+  try {
+    const popularEvents = await Event.find()
+      .sort({ "tickets.length": -1 }) // sau creezi un alt criteriu
+      .limit(10);
+    res.json(popularEvents);
+  } catch (err) {
+    res.status(500).json({ message: "Eroare la evenimentele populare" });
+  }
+});
+
+
+
 // 🔵 Returnează evenimentele organizatorului logat
 router.get("/my", authMiddleware, async (req, res) => {
   try {
