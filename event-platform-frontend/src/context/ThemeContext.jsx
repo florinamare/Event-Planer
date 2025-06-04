@@ -8,12 +8,17 @@ export function ThemeProvider({ children }) {
   });
 
   useEffect(() => {
-    document.body.setAttribute("data-theme", theme);
+    const root = document.documentElement; // <html>
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
     localStorage.setItem("theme", theme);
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
   return (
