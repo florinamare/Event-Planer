@@ -37,99 +37,107 @@ function GuestRoute({ children }) {
 function App() {
   const { user } = useContext(AuthContext);
 
-  // Până când determinăm dacă user-ul este autentificat, afișăm un fallback
   if (user === undefined) return <div>Se verifică autentificarea...</div>;
 
   return (
     <ThemeProvider>
       <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/events" element={<EventsList />} />
-          <Route path="/events/:id" element={<EventDetails />} />
-          <Route path="/map" element={<EventsMapPage />} />
-          <Route path="/search" element={<SearchResults />} />
+        <div className="min-h-screen flex flex-col">
+          <Navbar />
 
+          {/* Conținutul care va împinge footer-ul jos dacă e prea puțin */}
+          <main className="flex-1">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/events" element={<EventsList />} />
+              <Route path="/events/:id" element={<EventDetails />} />
+              <Route path="/map" element={<EventsMapPage />} />
+              <Route path="/search" element={<SearchResults />} />
 
-          
-          <Route
-            path="/create-event"
-            element={
-              <PrivateRoute role="organizer">
-                <CreateEvent />
-              </PrivateRoute>
-            }
-          />
-          <Route path="/admin-panel" element={<AdminPanel />} />
+              <Route
+                path="/create-event"
+                element={
+                  <PrivateRoute role="organizer">
+                    <CreateEvent />
+                  </PrivateRoute>
+                }
+              />
 
-          <Route
-            path="/my-tickets"
-            element={
-              <PrivateRoute>
-                <MyTicketsPage />
-              </PrivateRoute>
-            }
-          />
+              <Route path="/admin-panel" element={<AdminPanel />} />
 
-          <Route
-            path="/profile"
-            element={
-              <PrivateRoute>
-                <ProfilePage />
-              </PrivateRoute>
-            }
-          />
+              <Route
+                path="/my-tickets"
+                element={
+                  <PrivateRoute>
+                    <MyTicketsPage />
+                  </PrivateRoute>
+                }
+              />
 
-          <Route
-            path="/auth"
-            element={
-              <GuestRoute>
-                <SignInSignUp />
-              </GuestRoute>
-            }
-          />
-          
+              <Route
+                path="/profile"
+                element={
+                  <PrivateRoute>
+                    <ProfilePage />
+                  </PrivateRoute>
+                }
+              />
 
-          <Route path="/profile/edit" element={
-            <PrivateRoute>
-              <EditProfile />
-            </PrivateRoute>
-          } />
+              <Route
+                path="/auth"
+                element={
+                  <GuestRoute>
+                    <SignInSignUp />
+                  </GuestRoute>
+                }
+              />
 
-          <Route
-            path="/my-events"
-            element={
-              <PrivateRoute role="organizer">
-                <MyEventsPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-          path="/edit-event/:id"
-          element={
-            <PrivateRoute role="organizer">
-              <EditEventPage />
-            </PrivateRoute>
-          }
-        />
+              <Route
+                path="/profile/edit"
+                element={
+                  <PrivateRoute>
+                    <EditProfile />
+                  </PrivateRoute>
+                }
+              />
 
-          <Route
-            path="/cart"
-            element={
-              <PrivateRoute>
-                <CartPage />
-              </PrivateRoute>
-            }
-          />
+              <Route
+                path="/my-events"
+                element={
+                  <PrivateRoute role="organizer">
+                    <MyEventsPage />
+                  </PrivateRoute>
+                }
+              />
 
+              <Route
+                path="/edit-event/:id"
+                element={
+                  <PrivateRoute role="organizer">
+                    <EditEventPage />
+                  </PrivateRoute>
+                }
+              />
 
-        <Route path="*" element={<div>404 - Pagina nu a fost găsită</div>} />
-        </Routes>
-        <Footer />
+              <Route
+                path="/cart"
+                element={
+                  <PrivateRoute>
+                    <CartPage />
+                  </PrivateRoute>
+                }
+              />
+
+              <Route path="*" element={<div>404 - Pagina nu a fost găsită</div>} />
+            </Routes>
+          </main>
+
+          <Footer />
+        </div>
       </Router>
     </ThemeProvider>
   );
 }
+
 
 export default App;

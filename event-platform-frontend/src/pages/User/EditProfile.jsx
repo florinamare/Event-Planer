@@ -44,7 +44,7 @@ function EditProfile() {
 
       if (res.ok) {
         setMessage("Profil actualizat cu succes.");
-        login(token); // refacem login ca să actualizăm datele
+        login(token);
       } else {
         setMessage(data.message || "Eroare la actualizare.");
       }
@@ -54,54 +54,55 @@ function EditProfile() {
   };
 
   return (
-    <div className="edit-profile-page" style={{ maxWidth: 500, margin: "80px auto" }}>
-      <h2>Editare Profil</h2>
+    <div className="max-w-lg mx-auto mt-28 p-6 bg-white rounded-2xl shadow-lg">
+      <h2 className="text-2xl font-semibold text-center text-[#2A9D8F] mb-6">
+        ✏️ Editare Profil
+      </h2>
 
       {preview && (
-        <div style={{ marginBottom: "20px" }}>
+        <div className="flex justify-center mb-6">
           <img
             src={preview}
             alt="Preview"
-            style={{ width: 120, height: 120, borderRadius: "50%", objectFit: "cover" }}
+            className="w-32 h-32 rounded-full object-cover border-4 border-[#A8DADC]"
           />
         </div>
       )}
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label>Nume:</label>
+          <label className="block font-medium text-[#26415E] mb-1">Nume:</label>
           <input
             type="text"
             value={name}
             placeholder="Numele tău"
             onChange={(e) => setName(e.target.value)}
             required
-            style={{ padding: "8px", width: "100%", marginBottom: "10px" }}
+            className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]"
           />
         </div>
 
         <div>
-          <label>Imagine de profil:</label>
-          <input type="file" accept="image/*" onChange={handleImageChange} />
+          <label className="block font-medium text-[#26415E] mb-1">Imagine de profil:</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="block text-sm text-gray-700"
+          />
         </div>
 
         <button
           type="submit"
-          style={{
-            backgroundColor: "#0056b3",
-            color: "white",
-            padding: "10px 15px",
-            marginTop: "15px",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
+          className="w-full py-2 px-4 bg-[#2A9D8F] text-white rounded-lg hover:bg-[#1D5C5F] transition font-medium"
         >
-          Salvează modificările
+          💾 Salvează modificările
         </button>
       </form>
 
-      {message && <p style={{ marginTop: "15px", color: "#333" }}>{message}</p>}
+      {message && (
+        <p className="mt-4 text-center text-[#1D5C5F] font-medium">{message}</p>
+      )}
     </div>
   );
 }

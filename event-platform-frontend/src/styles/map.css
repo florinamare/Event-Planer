@@ -1,7 +1,7 @@
 .map-wrapper {
-    height: calc(100vh - 100px); /* ajustează dacă navbarul e mai mic/mare */
+    height: calc(100vh - 120px); /* ajustează dacă navbarul e mai mic/mare */
     width: 100%;
-    padding-top: 60px;
+    padding-top: 10px;
   }
   
   .map-title {

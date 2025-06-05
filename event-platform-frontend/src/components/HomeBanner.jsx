@@ -11,51 +11,48 @@ const images = [
 
 const HomeBanner = () => {
   return (
-    <div className="w-full h-[600px] relative overflow-hidden">
+    <div className="w-full h-[600px] relative">
       <Swiper
         modules={[Autoplay, Pagination]}
-        autoplay={{ delay: 4000 }}
-        loop={true}
+        autoplay={{ delay: 5000 }}
+        loop
         pagination={{ clickable: true }}
         className="w-full h-full"
       >
         {images.map((src, index) => (
           <SwiperSlide key={index}>
-          <div className="relative w-full h-full overflow-hidden">
-            {/* Margini blurate laterale */}
-            <img
-              src={src}
-              alt=""
-              className="absolute top-0 left-0 h-full w-full object-cover scale-110 blur-xl opacity-60 z-0"
-            />
-        
-            {/* Imagine principală clară */}
-            <img
-              src={src}
-              alt={`banner-${index}`}
-              className="relative w-full h-full object-contain z-10"
-              style={{ maxHeight: "100%", objectPosition: "center" }}
-            />
-        
-            {/* Overlay negru pentru contrast */}
-            <div className="absolute inset-0 bg-black/40 z-20" />
-        
-            {/* Text și link */}
-            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-center text-white z-30 px-4">
-              <h1 className="text-xl md:text-2xl font-serif mb-2">
-                Eventfy – Biletul tău către momente de neuitat
-              </h1>
-              <Link
-                to="/events"
-                className="text-[#c89459] hover:underline text-base font-medium inline-flex items-center gap-1"
-              >
-                Descoperă <span className="text-xl">→</span>
-              </Link>
+            <div className="relative w-full h-full">
+              {/* Imagine fundal blurată */}
+              <img
+                src={src}
+                alt={`background-${index}`}
+                className="absolute inset-0 w-full h-full object-cover blur-sm scale-105 opacity-80 z-0"
+              />
+
+              {/* Overlay gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent z-10" />
+
+              {/* Imagine principală */}
+              <img
+                src={src}
+                alt={`banner-${index}`}
+                className="absolute inset-0 w-full h-full object-cover z-20"
+              />
+
+              {/* Text central */}
+              <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-center text-white z-30 px-4">
+                <h1 className="text-2xl md:text-4xl font-bold mb-4 drop-shadow-lg">
+                  Eventfy – Biletul tău către momente de neuitat
+                </h1>
+                <Link
+                  to="/events"
+                  className="inline-block bg-[#C89459] hover:bg-[#a87c45] transition px-6 py-3 rounded-full text-white font-medium shadow-lg"
+                >
+                  Descoperă evenimentele
+                </Link>
+              </div>
             </div>
-          </div>
-        </SwiperSlide>
-        
-        
+          </SwiperSlide>
         ))}
       </Swiper>
     </div>

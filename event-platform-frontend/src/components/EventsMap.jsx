@@ -44,26 +44,29 @@ const EventsMap = () => {
             ]}
           >
             <Popup>
-              <div>
-                <strong>{event.title}</strong><br />
-                <p>{event.location?.address}</p>
+              <div className="p-3 rounded-xl shadow-lg bg-white w-60">
+              <img
+                  src={
+                    event.image?.startsWith("http")
+                      ? event.image
+                      : `http://localhost:3000${event.image}`
+                  }
+                  alt={event.title}
+                  onError={(e) => (e.target.src = "/default-event.png")}
+                  className="w-full h-24 object-cover rounded-md mb-2"
+                />
+
+                <h3 className="text-lg font-semibold text-[#000000]">{event.title}</h3>
+                <p className="text-sm text-gray-600 mb-2">{new Date(event.date).toLocaleDateString()}</p>
                 <Link
                   to={`/events/${event._id}`}
-                  style={{
-                    display: "inline-block",
-                    marginTop: "8px",
-                    padding: "6px 12px",
-                    backgroundColor: "#0056b3",
-                    color: "#fff",
-                    textDecoration: "none",
-                    borderRadius: "5px"
-                  }}
+                  className="inline-block px-3 py-1 bg-[#C89459] text-white text-sm rounded hover:bg-[#A87C45] transition"
                 >
-                  Vezi detalii
+                  Vezi Detalii
                 </Link>
-
               </div>
             </Popup>
+
 
           </Marker>
         ))}

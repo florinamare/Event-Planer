@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { TicketIcon, CheckCircle, Clock } from "lucide-react";
 
 function MyTicketsPage() {
   const { user } = useContext(AuthContext);
@@ -68,161 +69,108 @@ function MyTicketsPage() {
   if (loading) return <p>Se încarcă biletele...</p>;
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>Biletele Mele</h2>
+    <div className="max-w-5xl mx-auto px-4 py-8">
+      <h2 className="text-3xl font-bold mb-6 text-center flex items-center justify-center gap-2">
+  <TicketIcon className="w-7 h-7 text-[#2A9D8F]" />
+  Biletele Mele
+</h2>
 
-      {/* 🔵 Bilete actuale */}
-      <section style={{ marginBottom: "2rem" }}>
-        <h3 style={{ color: "#0056b3" }}>🎫 Bilete Active</h3>
+  
+      {/* 🔵 Bilete active */}
+      <section className="mb-10">
+      <h3 className="text-2xl font-semibold text-[#2A9D8F] mb-4 flex items-center gap-2">
+          <CheckCircle className="w-6 h-6 text-[#2A9D8F]" />
+          Bilete Active
+        </h3>
+
         {tickets.active.length === 0 ? (
-                <p>Nu ai bilete pentru evenimente viitoare.</p>
-              ) : (
-                <ul>
-                  {tickets.active.map((ticket) => (
-                    
-        <div key={ticket._id} style={{ marginBottom: "2rem" }}>
-
-          {/* zona PDF – doar această parte se salvează */}
-          <div
-            id={`ticket-${ticket._id}`}
-            style={{
-              maxWidth: "500px",
-              margin: "0 auto",
-              padding: "1.5rem",
-              backgroundColor: "#ffffff",
-              border: "1px solid #ddd",
-              borderRadius: "12px",
-              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-              fontFamily: "Arial, sans-serif",
-              color: "#333",
-              textAlign: "center",
-            }}
-          >
-            <h3 style={{ color: "#0056b3", marginBottom: "1rem" }}>Bilet Eveniment</h3>
-            <p><strong>Eveniment:</strong> {ticket.event?.title}</p>
-            <p><strong>Tip:</strong> {ticket.ticketType}</p>
-            <p><strong>Cantitate:</strong> {ticket.quantity}</p>
-            <p><strong>Preț:</strong> {ticket.price} EUR</p>
-            <p><strong>Total tranzacție:</strong> {ticket.price * ticket.quantity} EUR</p>
-            <p><strong>Dată:</strong> {new Date(ticket.event?.date).toLocaleDateString()}</p>
-            
-
-            <div style={{ marginTop: "1.5rem" }}>
-              <img
-                src={ticket.qrCode}
-                alt="QR Code"
-                style={{
-                  width: "150px",
-                  height: "150px",
-                  border: "1px solid #eee",
-                  padding: "5px",
-                  backgroundColor: "#fafafa",
-                }}
-              />
-            </div>
+          <p className="text-gray-500">Nu ai bilete pentru evenimente viitoare.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {tickets.active.map((ticket) => (
+              <div key={ticket._id} className="flex flex-col items-center">
+                {/* zona PDF */}
+                <div
+                  id={`ticket-${ticket._id}`}
+                  className="w-full max-w-md bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg rounded-xl p-6 text-center text-sm"
+                >
+                  <h4 className="text-lg font-semibold text-[#1D5C5F] mb-3">Bilet Eveniment</h4>
+                  <p><span className="font-medium">Eveniment:</span> {ticket.event?.title}</p>
+                  <p><span className="font-medium">Tip:</span> {ticket.ticketType}</p>
+                  <p><span className="font-medium">Cantitate:</span> {ticket.quantity}</p>
+                  <p><span className="font-medium">Preț:</span> {ticket.price} EUR</p>
+                  <p><span className="font-medium">Total:</span> {ticket.price * ticket.quantity} EUR</p>
+                  <p><span className="font-medium">Dată:</span> {new Date(ticket.event?.date).toLocaleDateString()}</p>
+  
+                  <div className="mt-4">
+                    <img
+                      src={ticket.qrCode}
+                      alt="QR Code"
+                      className="w-36 h-36 mx-auto border border-gray-200 bg-gray-50 p-2 rounded"
+                    />
+                  </div>
+                </div>
+  
+                {/* buton PDF */}
+                <button
+                  onClick={() => generatePDF(ticket._id)}
+                  className="mt-3 bg-[#C89459] hover:bg-[#b97d3e] text-white text-sm px-4 py-2 rounded-lg transition"
+                >
+                  Descarcă PDF
+                </button>
+              </div>
+            ))}
           </div>
-
-          {/* buton în afara div-ului PDF */}
-          <div style={{ textAlign: "center", marginTop: "10px" }}>
-            <button
-              className="auth-button"
-              onClick={() => generatePDF(ticket._id)}
-              style={{
-                padding: "8px 16px",
-                backgroundColor: "#ff7f00",
-                color: "white",
-                border: "none",
-                borderRadius: "6px",
-                cursor: "pointer",
-              }}
-            >
-              Descarcă PDF
-            </button>
-          </div>
-        </div>
-      ))}
-
-
-          </ul>
         )}
       </section>
-
+  
       {/* 🔴 Bilete expirate */}
       <section>
-        <h3 style={{ color: "#888" }}>🕘 Bilete Expirate</h3>
-        {tickets.expired.length === 0 ? (
-          <p>Nu ai bilete expirate.</p>
-        ) : (
-          <ul>
-            {tickets.expired.map((ticket) => (
-               <div key={ticket._id} style={{ marginBottom: "2rem" }}>
-               {/* zona PDF – doar această parte se salvează */}
-               <div
-                 id={`ticket-${ticket._id}`}
-                 style={{
-                   maxWidth: "500px",
-                   margin: "0 auto",
-                   padding: "1.5rem",
-                   backgroundColor: "#ffffff",
-                   border: "1px solid #ddd",
-                   borderRadius: "12px",
-                   boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                   fontFamily: "Arial, sans-serif",
-                   color: "#333",
-                   textAlign: "center",
-                 }}
-               >
-                 <h3 style={{ color: "#0056b3", marginBottom: "1rem" }}>Bilet Eveniment</h3>
-                 <p><strong>Eveniment:</strong> {ticket.event?.title}</p>
-                 <p><strong>Tip:</strong> {ticket.ticketType}</p>
-                 <p><strong>Cantitate:</strong> {ticket.quantity}</p>
-                 <p><strong>Preț:</strong> {ticket.price} EUR</p>
-                 <p style={{ fontWeight: "bold", fontSize: "18px", marginTop: "1rem", color: "#999" }}>
-                Total plătit pentru bilete expirate: {totalExpired.toFixed(2)} EUR
-              </p>
+      <h3 className="text-2xl font-semibold text-gray-500 mb-4 flex items-center gap-2">
+        <Clock className="w-6 h-6 text-gray-500" />
+        Bilete Expirate
+      </h3>
 
-                 <p><strong>Dată:</strong> {new Date(ticket.event?.date).toLocaleDateString()}</p>
-           
-                 <div style={{ marginTop: "1.5rem" }}>
-                   <img
-                     src={ticket.qrCode}
-                     alt="QR Code"
-                     style={{
-                       width: "150px",
-                       height: "150px",
-                       border: "1px solid #eee",
-                       padding: "5px",
-                       backgroundColor: "#fafafa",
-                     }}
-                   />
-                 </div>
-               </div>
-           
-               {/* buton în afara div-ului PDF */}
-               <div style={{ textAlign: "center", marginTop: "10px" }}>
-                 <button
-                   className="auth-button"
-                   onClick={() => generatePDF(ticket._id)}
-                   style={{
-                     padding: "8px 16px",
-                     backgroundColor: "#ff7f00",
-                     color: "white",
-                     border: "none",
-                     borderRadius: "6px",
-                     cursor: "pointer",
-                   }}
-                 >
-                   Descarcă PDF
-                 </button>
-               </div>
-             </div>
-           ))}
-            
-          </ul>
+        {tickets.expired.length === 0 ? (
+          <p className="text-gray-500">Nu ai bilete expirate.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {tickets.expired.map((ticket) => (
+              <div key={ticket._id} className="flex flex-col items-center">
+                <div
+                  id={`ticket-${ticket._id}`}
+                  className="w-full max-w-md bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg rounded-xl p-6 text-center text-sm"
+                >
+                  <h4 className="text-lg font-semibold text-[#1D5C5F] mb-3">Bilet Eveniment</h4>
+                  <p><span className="font-medium">Eveniment:</span> {ticket.event?.title}</p>
+                  <p><span className="font-medium">Tip:</span> {ticket.ticketType}</p>
+                  <p><span className="font-medium">Cantitate:</span> {ticket.quantity}</p>
+                  <p><span className="font-medium">Preț:</span> {ticket.price} EUR</p>
+                  <p><span className="font-medium">Dată:</span> {new Date(ticket.event?.date).toLocaleDateString()}</p>
+  
+                  <div className="mt-4">
+                    <img
+                      src={ticket.qrCode}
+                      alt="QR Code"
+                      className="w-36 h-36 mx-auto border border-gray-200 bg-gray-50 p-2 rounded"
+                    />
+                  </div>
+                </div>
+  
+                <button
+                  onClick={() => generatePDF(ticket._id)}
+                  className="mt-3 bg-[#C89459] hover:bg-[#b97d3e] text-white text-sm px-4 py-2 rounded-lg transition"
+                >
+                  Descarcă PDF
+                </button>
+              </div>
+            ))}
+          </div>
         )}
       </section>
     </div>
   );
+  
 }
 
 export default MyTicketsPage;

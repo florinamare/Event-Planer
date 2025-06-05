@@ -49,7 +49,7 @@ function Navbar() {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="navbar relative z-50">
+    <nav className="navbar relative z-[1001]">
       <div className="container">
         <Link to="/" className="logo">
           <img src="/logo.png" alt="Logo" />
@@ -76,7 +76,7 @@ function Navbar() {
 
             {showEventDropdown && (
   <div
-    className="absolute mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 z-40 animate-fadeIn"
+    className="absolute mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 z-[1001] animate-fadeIn"
     onMouseEnter={() => setShowEventDropdown(true)}
     onMouseLeave={() => setShowEventDropdown(false)}
   >
@@ -148,7 +148,7 @@ function Navbar() {
               </button>
 
               {showUserDropdown && (
-                <div className="absolute right-0 mt-2 w-48 rounded-xl shadow-lg bg-white z-40 animate-fadeIn">
+                <div className="absolute right-0 mt-2 w-48 rounded-xl shadow-lg bg-white z-[1001] animate-fadeIn">
                   <div className="py-1 flex flex-col text-sm text-[#26415E]">
                     <Link to="/profile" className="px-4 py-2 hover:bg-gray-100 hover:text-[#C89459]">Profilul Meu</Link>
                     <Link to="/my-tickets" className="px-4 py-2 hover:bg-gray-100 hover:text-[#C89459]">Biletele Mele</Link>

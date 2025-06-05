@@ -42,20 +42,17 @@ function EditEvent() {
     e.preventDefault();
     const token = localStorage.getItem("token");
     const formData = new FormData();
-
+  
     formData.append("title", title);
     formData.append("description", description);
     formData.append("type", type);
     formData.append("date", eventDate);
     formData.append("location", location);
     if (image) formData.append("image", image);
-
-    tickets.forEach((ticket, i) => {
-      formData.append(`tickets[${i}][type]`, ticket.type);
-      formData.append(`tickets[${i}][price]`, ticket.price);
-      formData.append(`tickets[${i}][quantity]`, ticket.quantity);
-    });
-
+  
+    // ✅ Trimitem array-ul de bilete ca JSON string
+    formData.append("tickets", JSON.stringify(tickets));
+  
     const res = await fetch(`http://localhost:3000/api/events/${id}`, {
       method: "PUT",
       headers: {
@@ -63,7 +60,7 @@ function EditEvent() {
       },
       body: formData,
     });
-
+  
     if (res.ok) {
       alert("Eveniment actualizat cu succes!");
       navigate("/");
@@ -72,6 +69,7 @@ function EditEvent() {
       alert(data.message || "Eroare la actualizare.");
     }
   };
+  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">

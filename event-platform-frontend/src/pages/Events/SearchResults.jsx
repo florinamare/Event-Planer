@@ -1,8 +1,7 @@
-// ✅ SearchResults.jsx
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import EventCard from "../../components/EventCard"; // adaptat în funcție de locația fișierului tău
+import EventCard from "../../components/EventCard";
 
 function SearchResults() {
   const location = useLocation();
@@ -32,18 +31,23 @@ function SearchResults() {
   }, [searchQuery]);
 
   return (
-    <div className="search-results-page">
-      <h2>Rezultate pentru: "{searchQuery}"</h2>
+    <div className="min-h-screen bg-[#E6E6E6] dark:bg-[#0B1B32] text-[#1D5C5F] dark:text-white px-4 py-10">
+      <h2 className="text-3xl font-bold mb-6 text-[#000000] dark:text-[#A8DADC]">
+        Rezultate pentru: "<span className="italic">{searchQuery}</span>"
+      </h2>
+
       {loading ? (
-        <p>Se încarcă...</p>
+        <p className="text-lg">Se încarcă...</p>
       ) : results.length > 0 ? (
-        <div className="event-grid">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {results.map((event) => (
             <EventCard key={event._id} event={event} />
           ))}
         </div>
       ) : (
-        <p>Nu am găsit evenimente care să corespundă căutării.</p>
+        <p className="text-lg text-red-600 dark:text-red-300">
+          Nu am găsit evenimente care să corespundă căutării.
+        </p>
       )}
     </div>
   );

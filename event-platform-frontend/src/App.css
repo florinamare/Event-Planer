@@ -136,7 +136,7 @@ button.nav-link:hover,
   display: none;
   flex-direction: column;
   min-width: 160px;
-  z-index: 50;
+  z-index: 1001;
   position : absolute;
 }
 

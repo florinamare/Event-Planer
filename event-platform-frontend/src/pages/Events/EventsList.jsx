@@ -16,7 +16,6 @@ function EventsList() {
     fetch("http://localhost:3000/api/events")
       .then((res) => res.json())
       .then((data) => {
-        // Filtrăm după tip dacă există un query type
         const filtered = selectedType
           ? data.filter((ev) => ev.type === selectedType)
           : data;
@@ -24,7 +23,7 @@ function EventsList() {
         setEvents(filtered);
         groupByCategory(filtered);
       })
-      .catch((err) => console.error("Eroare la încărcarea evenimentelor:", err))
+      .catch((err) => console.error("❌ Eroare la încărcarea evenimentelor:", err))
       .finally(() => setLoading(false));
   }, [selectedType]);
 
@@ -38,44 +37,40 @@ function EventsList() {
     setGroupedEvents(grouped);
   };
 
-  const formatType = (type) => {
-    return type
+  const formatType = (type) =>
+    type
       .split("-")
       .map((word) => word[0].toUpperCase() + word.slice(1))
       .join(" ");
-  };
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2 style={{ fontSize: "1.8rem", marginBottom: "1rem" }}>
+    <div className="w-full px-6 py-10 bg-[#F9FAFB] min-h-screen">
+      <h2 className="text-2xl font-bold text-[#26415E] mb-6">
         {selectedType
           ? `Evenimente din categoria: ${formatType(selectedType)}`
-          : "Lista Evenimentelor"}
+          : "Toate Evenimentele"}
       </h2>
 
       {loading ? (
-        <p>Se încarcă evenimentele...</p>
+        <p className="text-gray-500 text-base">Se încarcă evenimentele...</p>
       ) : Object.keys(groupedEvents).length === 0 ? (
-        <p>Nu există evenimente disponibile.</p>
+        <p className="text-red-500 text-base">Nu există evenimente disponibile.</p>
       ) : (
         Object.entries(groupedEvents).map(([category, events]) => (
-          <div key={category} style={{ marginBottom: "2rem" }}>
+          <div key={category} className="mb-10">
             {!selectedType && (
-              <h3
-                style={{
-                  color: "#0056b3",
-                  marginBottom: "1rem",
-                  textTransform: "capitalize",
-                }}
-              >
+              <h3 className="text-lg font-semibold text-[#2A9D8F] mb-4 capitalize">
                 {formatType(category)}
               </h3>
             )}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
-              {events.map((event) => (
-                <EventCard key={event._id} event={event} />
-              ))}
-            </div>
+            <div
+                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-2 gap-y-4"
+              >
+                {events.map((event) => (
+                  <EventCard key={event._id} event={event} />
+                ))}
+              </div>
+
           </div>
         ))
       )}

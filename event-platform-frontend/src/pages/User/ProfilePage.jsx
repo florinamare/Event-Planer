@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import "../../styles/ProfilePage.css";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -7,13 +6,15 @@ function ProfilePage() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  if (!user) return <div>Se încarcă...</div>;
+  if (!user) return <div className="text-center py-20 text-gray-500">Se încarcă...</div>;
 
   return (
-    <div className="profile-page" style={{ padding: "2rem", maxWidth: "600px", margin: "80px auto" }}>
-      <h2 style={{ fontSize: "1.8rem", marginBottom: "1.5rem" }}>👤 Profilul Meu</h2>
+    <div className="max-w-3xl mx-auto mt-28 p-6 bg-white rounded-2xl shadow-lg">
+      <h2 className="text-3xl font-semibold text-[#2A9D8F] mb-8 text-center">
+        👤 Profilul Meu
+      </h2>
 
-      <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", marginBottom: "1.5rem" }}>
+      <div className="flex flex-col sm:flex-row items-center gap-6 mb-6">
         <img
           src={
             user.profileImage
@@ -21,35 +22,23 @@ function ProfilePage() {
               : "/default-avatar.png"
           }
           alt="Poza de profil"
-          style={{
-            width: "120px",
-            height: "120px",
-            borderRadius: "50%",
-            objectFit: "cover",
-            border: "2px solid #ccc",
-          }}
+          className="w-32 h-32 rounded-full object-cover border-4 border-[#A8DADC]"
         />
-        <div>
-          <p><strong>Nume:</strong> {user.name || "Nespecificat"}</p>
-          <p><strong>Email:</strong> {user.email}</p>
-          <p><strong>Rol:</strong> {user.role}</p>
+        <div className="text-left text-[#26415E] text-base">
+          <p><span className="font-medium">Nume:</span> {user.name || "Nespecificat"}</p>
+          <p><span className="font-medium">Email:</span> {user.email}</p>
+          <p><span className="font-medium">Rol:</span> {user.role}</p>
         </div>
       </div>
 
-      <button
-        className="auth-button"
-        style={{
-          padding: "10px 20px",
-          backgroundColor: "#0056b3",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
-        onClick={() => navigate("/profile/edit")}
-      >
-        ✏️ Editează Profilul
-      </button>
+      <div className="text-center">
+        <button
+          onClick={() => navigate("/profile/edit")}
+          className="px-6 py-2 bg-[#2A9D8F] text-white rounded-lg font-medium hover:bg-[#1D5C5F] transition"
+        >
+         Editează Profilul
+        </button>
+      </div>
     </div>
   );
 }
