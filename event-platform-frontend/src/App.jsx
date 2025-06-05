@@ -18,6 +18,8 @@ import EditEventPage from "./pages/Events/EditEventPage";
 import EventsMapPage from "./pages/Events/EvetsMapPage";
 import AdminPanel from "./pages/Auth/AdminPanel";
 import SearchResults from "./pages/Events/SearchResults"; // sau calea corectă la tine
+import ChatBox from "./components/ChatBox";
+import ChatWidget from "./components/ChatWidget";
 
 
 
@@ -133,6 +135,8 @@ function App() {
           </main>
 
           <Footer />
+          <ChatWidget />
+          
         </div>
       </Router>
     </ThemeProvider>
