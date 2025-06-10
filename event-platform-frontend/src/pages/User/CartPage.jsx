@@ -213,7 +213,7 @@ function CartPage() {
           </ul>
 
           <p className="text-lg font-bold mt-6">
-            Total de plată: <span className="text-green-600">{total} EUR</span>
+            Total de plată: <span className="text-green-600">{total} LEI</span>
           </p>
 
           {!checkoutStarted ? (

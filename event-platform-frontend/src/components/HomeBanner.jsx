@@ -5,8 +5,11 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 const images = [
-  "/banners/banner1.jpg",
-  "/banners/banner2.jpg",
+  "/banners/banner1.png",
+  "/banners/banner2.png",
+  "/banners/banner3.png",
+  "/banners/banner4.png", 
+  "/banners/banner5.png"
 ];
 
 const HomeBanner = () => {
@@ -22,22 +25,15 @@ const HomeBanner = () => {
         {images.map((src, index) => (
           <SwiperSlide key={index}>
             <div className="relative w-full h-full">
-              {/* Imagine fundal blurată */}
-              <img
-                src={src}
-                alt={`background-${index}`}
-                className="absolute inset-0 w-full h-full object-cover blur-sm scale-105 opacity-80 z-0"
-              />
-
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent z-10" />
-
-              {/* Imagine principală */}
+              {/* Imagine clară */}
               <img
                 src={src}
                 alt={`banner-${index}`}
-                className="absolute inset-0 w-full h-full object-cover z-20"
+                className="absolute inset-0 w-full h-full object-cover z-0"
               />
+
+              {/* Overlay întunecat */}
+              <div className="absolute inset-0 bg-black bg-opacity-50 z-10" />
 
               {/* Text central */}
               <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-center text-white z-30 px-4">

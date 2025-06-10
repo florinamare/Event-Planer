@@ -73,10 +73,10 @@ function EventDetails() {
       <div className="flex flex-col md:flex-row items-start gap-8 bg-[#E6E6E6] dark:bg-[#0B1B32] text-[#1D5C5F] dark:text-white p-6 rounded-lg shadow-md">
         {event.image && (
           <img
-            src={`http://localhost:3000${event.image}`}
-            alt="Imagine eveniment"
-            className="w-full md:w-[50%] h-56 object-cover rounded-lg"
-          />
+          src={`http://localhost:3000${event.image}`}
+          alt="Imagine eveniment"
+          className="w-full md:w-[50%] h-auto max-h-[400px] object-contain rounded-lg bg-white p-2"
+        />        
         )}
 
         <div className="flex-1">
@@ -112,7 +112,7 @@ function EventDetails() {
           <ul className="mb-4 list-disc pl-6">
             {event.tickets?.map((ticket, index) => (
               <li key={index}>
-                <strong>{ticket.type}</strong> — {ticket.price} EUR (disponibile: {ticket.quantity})
+                <strong>{ticket.type}</strong> — {ticket.price} LEI (disponibile: {ticket.quantity})
               </li>
             ))}
           </ul>
@@ -129,7 +129,7 @@ function EventDetails() {
                   <option value="">-- Selectează --</option>
                   {event.tickets?.map((ticket, index) => (
                     <option key={index} value={ticket.type}>
-                      {ticket.type} - {ticket.price} EUR
+                      {ticket.type} - {ticket.price} LEI
                     </option>
                   ))}
                 </select>

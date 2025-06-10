@@ -30,7 +30,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding-left: 20px;
+  padding-right: 0;
 }
 
 .navbar h1 {
@@ -187,6 +188,8 @@ button.nav-link:hover,
 
 
 
+
+
 /* ✅ Tema Light/Dark */
 body[data-theme="dark"] {
   background-color: #1e1e2e;
@@ -319,3 +322,18 @@ body[data-theme="dark"] .nav-link.active-link {
   -ms-overflow-style: none;  /* IE */
   scrollbar-width: none;  /* Firefox */
 }
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  gap: 16px;
+  margin-right: -250px;
+}
+
+
+.search-form {
+  backdrop-filter: blur(4px);
+  background-color: rgba(255, 255, 255, 0.85);
+}
+

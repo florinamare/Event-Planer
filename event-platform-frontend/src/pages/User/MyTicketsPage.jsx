@@ -98,8 +98,8 @@ function MyTicketsPage() {
                   <p><span className="font-medium">Eveniment:</span> {ticket.event?.title}</p>
                   <p><span className="font-medium">Tip:</span> {ticket.ticketType}</p>
                   <p><span className="font-medium">Cantitate:</span> {ticket.quantity}</p>
-                  <p><span className="font-medium">Preț:</span> {ticket.price} EUR</p>
-                  <p><span className="font-medium">Total:</span> {ticket.price * ticket.quantity} EUR</p>
+                  <p><span className="font-medium">Preț:</span> {ticket.price} LEI</p>
+                  <p><span className="font-medium">Total:</span> {ticket.price * ticket.quantity} LEI</p>
                   <p><span className="font-medium">Dată:</span> {new Date(ticket.event?.date).toLocaleDateString()}</p>
   
                   <div className="mt-4">
@@ -145,7 +145,7 @@ function MyTicketsPage() {
                   <p><span className="font-medium">Eveniment:</span> {ticket.event?.title}</p>
                   <p><span className="font-medium">Tip:</span> {ticket.ticketType}</p>
                   <p><span className="font-medium">Cantitate:</span> {ticket.quantity}</p>
-                  <p><span className="font-medium">Preț:</span> {ticket.price} EUR</p>
+                  <p><span className="font-medium">Preț:</span> {ticket.price} LEI</p>
                   <p><span className="font-medium">Dată:</span> {new Date(ticket.event?.date).toLocaleDateString()}</p>
   
                   <div className="mt-4">
