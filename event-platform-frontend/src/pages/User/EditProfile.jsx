@@ -56,7 +56,7 @@ function EditProfile() {
   return (
     <div className="max-w-lg mx-auto mt-28 p-6 bg-white rounded-2xl shadow-lg">
       <h2 className="text-2xl font-semibold text-center text-[#2A9D8F] mb-6">
-        ✏️ Editare Profil
+         Editare Profil
       </h2>
 
       {preview && (
@@ -96,7 +96,7 @@ function EditProfile() {
           type="submit"
           className="w-full py-2 px-4 bg-[#2A9D8F] text-white rounded-lg hover:bg-[#1D5C5F] transition font-medium"
         >
-          💾 Salvează modificările
+          Salvează modificările
         </button>
       </form>
 

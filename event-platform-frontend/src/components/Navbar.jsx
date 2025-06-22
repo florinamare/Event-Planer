@@ -112,7 +112,7 @@ function Navbar() {
               to="/admin-panel"
               className={`nav-link ${isActive("/admin-panel") ? "active-link" : ""}`}
             >
-              Admin
+              Administrare
             </Link>
           )}
 
