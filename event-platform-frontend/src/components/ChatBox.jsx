@@ -12,17 +12,18 @@ const ChatBox = ({ onSend, messages, setMessages, onClose }) => {
   }, [messages]);
 
   useEffect(() => {
-  if (messages.length === 0) {
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        { sender: "bot", text: "Salut! Pot să-ți recomand evenimente pe baza întrebărilor tale." }
-      ]);
-    }, 500);
-  }
-}, []);
-
-  
+    if (messages.length === 0) {
+      setTimeout(() => {
+        setMessages((prev) => [
+          ...prev,
+          {
+            sender: "bot",
+            text: "Salut! Pot să-ți recomand evenimente pe baza întrebărilor tale."
+          }
+        ]);
+      }, 500);
+    }
+  }, []);
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -44,7 +45,7 @@ const ChatBox = ({ onSend, messages, setMessages, onClose }) => {
         className="flex-1 overflow-y-auto p-3 flex flex-col gap-2"
       >
         {messages.map((msg, idx) =>
-          Array.isArray(msg.suggestions) ? (
+          Array.isArray(msg.suggestions) && msg.suggestions.length > 0 ? (
             <div
               key={idx}
               className="self-start border border-emerald-400 text-[#1D5C5F] text-sm px-3 py-2 rounded-lg flex flex-col gap-2"
@@ -72,6 +73,13 @@ const ChatBox = ({ onSend, messages, setMessages, onClose }) => {
                   <span key={i}>{sug.title}</span>
                 )
               )}
+            </div>
+          ) : msg.message ? (
+            <div
+              key={idx}
+              className="self-start border border-red-400 text-red-700 bg-red-50 text-sm px-3 py-2 rounded-lg"
+            >
+              {msg.message}
             </div>
           ) : (
             <div

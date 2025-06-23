@@ -1,3 +1,4 @@
+//chatwidget.jsx
 import { useState } from "react";
 import ChatBox from "./ChatBox";
 import { MessageCircle } from "lucide-react";
@@ -7,29 +8,33 @@ function ChatWidget() {
   const [messages, setMessages] = useState([]);
 
   const handleSendMessage = async (message) => {
-    setMessages((prev) => [...prev, { sender: "user", text: message }]);
+  setMessages((prev) => [...prev, { sender: "user", text: message }]);
 
-    try {
-      const res = await fetch("http://localhost:8000/suggest", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: message }),
-      });
+  try {
+    const res = await fetch("http://localhost:8000/suggest", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: message }),
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (data.suggestions) {
-        setMessages((prev) => [...prev, { sender: "bot", suggestions: data.suggestions }]);
-      } else {
-        setMessages((prev) => [...prev, { sender: "bot", text: data.response || "Niciun rezultat." }]);
-      }
-    } catch (error) {
-      setMessages((prev) => [
-        ...prev,
-        { sender: "bot", text: "A apărut o eroare la trimiterea mesajului." },
-      ]);
+    if (Array.isArray(data.suggestions) && data.suggestions.length > 0) {
+      setMessages((prev) => [...prev, { sender: "bot", suggestions: data.suggestions }]);
+    } else if (data.message) {
+      // mesajul de la backend când nu găsește nimic
+      setMessages((prev) => [...prev, { sender: "bot", message: data.message }]);
+    } else {
+      setMessages((prev) => [...prev, { sender: "bot", text: "Nu s-au găsit sugestii." }]);
     }
-  };
+  } catch (error) {
+    setMessages((prev) => [
+      ...prev,
+      { sender: "bot", text: "A apărut o eroare la trimiterea mesajului." },
+    ]);
+  }
+};
+
 
   return (
     <>
