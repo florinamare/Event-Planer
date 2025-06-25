@@ -31,15 +31,22 @@ git clone https://github.com/florinamare/Event-Planer
 
 cd Event-Planer
 
-2. Instalare și rulare backend 
+### 2. Instalare și rulare backend 
 
 cd event-platform-backend
 npm install
-npm install cors
-npm install express mongoose body-parser
+npm install cors express mongoose body-parser dotnev
 npm run dev
 
-3. Instalare și rulare frontend
+Deoarece .env este adaugat in gitignore pentru a nu expune datele sensibile, aici este un .env exemplu cu un cont ce are acces la baza de date.
+
+MONGO_URI=mongodb+srv://verificare:verificare@cluster0.epog9.mongodb.net/event-platform?retryWrites=true&w=majority
+JWT_SECRET=supersecret123
+PORT=3000
+
+
+
+### 3. Instalare și rulare frontend
 cd ../event-platfrom-frontend
 npm install
 npm install leaflet axios lucide-react
@@ -48,7 +55,7 @@ npx tailwindcss init -p
 
 npm run dev
 
-4. Microserviciu AI
+### 4. Microserviciu AI
 cd ../chat_ai
 python -m venv venv_ai
 .\venv_ai\Scripts\activate
