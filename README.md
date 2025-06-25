@@ -20,7 +20,7 @@ Asigură-te ca ai instalat
 - Python (v3.10+)
 - MongoDB (recomanndat: MongoDB Atlas)
 - Git
--npm și pip
+- npm și pip
 
 ## Pași de instalare și rulare
 
