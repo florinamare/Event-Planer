@@ -31,7 +31,7 @@ git clone https://github.com/florinamare/Event-Planer
 
 cd Event-Planer
 
-### 2. Instalare și rulare backend 
+2. Instalare și rulare backend 
 
 cd event-platform-backend
 npm install
