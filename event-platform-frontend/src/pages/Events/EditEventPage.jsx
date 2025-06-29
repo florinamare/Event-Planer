@@ -50,7 +50,7 @@ function EditEvent() {
     formData.append("location", location);
     if (image) formData.append("image", image);
   
-    // ✅ Trimitem array-ul de bilete ca JSON string
+    //  Trimitem array-ul de bilete ca JSON string
     formData.append("tickets", JSON.stringify(tickets));
   
     const res = await fetch(`http://localhost:3000/api/events/${id}`, {

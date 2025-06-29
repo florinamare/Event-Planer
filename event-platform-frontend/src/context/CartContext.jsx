@@ -19,7 +19,7 @@ export const CartProvider = ({ children }) => {
       });
       setCartItems(res.data.items || []);
     } catch (error) {
-      console.error("❌ Eroare la fetch cart:", error);
+      console.error(" Eroare la fetch cart:", error);
     }
   };
 

@@ -55,7 +55,7 @@ function EventDetails() {
 
       const data = await response.json();
       if (response.ok) {
-        setMessage("✅ Biletele au fost adăugate în coș!");
+        setMessage(" Biletele au fost adăugate în coș!");
         fetchCart();
       } else {
         setMessage(data.message || "Eroare la adăugare în coș.");

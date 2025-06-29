@@ -10,7 +10,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 🔐 Setăm rolul în funcție de bifă
+    //  Setam rolul în functie de bifa
     const role = wantsOrganizer ? "pending_organizer" : "user";
 
     const response = await fetch("http://localhost:3000/api/auth/register", {

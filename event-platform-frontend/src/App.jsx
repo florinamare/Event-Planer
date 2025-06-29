@@ -17,7 +17,7 @@ import MyEventsPage from "./pages/User/MyEventsPage";
 import EditEventPage from "./pages/Events/EditEventPage";
 import EventsMapPage from "./pages/Events/EvetsMapPage";
 import AdminPanel from "./pages/Auth/AdminPanel";
-import SearchResults from "./pages/Events/SearchResults"; // sau calea corectă la tine
+import SearchResults from "./pages/Events/SearchResults"; 
 import ChatBox from "./components/ChatBox";
 import ChatWidget from "./components/ChatWidget";
 
@@ -47,7 +47,7 @@ function App() {
         <div className="min-h-screen flex flex-col">
           <Navbar />
 
-          {/* Conținutul care va împinge footer-ul jos dacă e prea puțin */}
+          {/* Continutul care va impinge footer-ul jos dacă e prea putin */}
           <main className="flex-1">
             <Routes>
               <Route path="/" element={<Home />} />

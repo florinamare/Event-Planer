@@ -20,7 +20,7 @@ function AdminPanel() {
         .then((data) => setPendingUsers(data))
         .catch((err) => console.error("Eroare la fetch pending:", err));
   
-      // Toți utilizatorii
+      // Toti utilizatorii
       fetch("http://localhost:3000/api/users/all", {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -44,9 +44,9 @@ function AdminPanel() {
       });
       if (res.ok) {
         setPendingUsers((prev) => prev.filter((u) => u._id !== id));
-        alert("✅ Utilizator aprobat ca organizator!");
+        alert(" Utilizator aprobat ca organizator!");
       } else {
-        alert("❌ Eroare la aprobare");
+        alert(" Eroare la aprobare");
       }
     } catch (err) {
       console.error(err);

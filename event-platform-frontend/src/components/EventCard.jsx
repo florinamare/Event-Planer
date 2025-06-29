@@ -18,7 +18,7 @@ function EventCard({ event }) {
   return (
     <div className="shadow-md bg-white rounded-xl overflow-hidden transition hover:shadow-lg w-[300px] flex-shrink-0">
       
-      {/* ✅ Imagine + badge colț stânga sus */}
+      {/* Imagine + badge colt stanga sus */}
       <div className="relative">
         <img
           src={imageUrl}

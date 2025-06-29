@@ -6,7 +6,7 @@ function PrivateRoute({ children }) {
   const { user } = useContext(AuthContext);
 
   if (user === null) {
-    // Încă se încarcă sau nu e autentificat
+    // incă se încarcă sau nu e autentificat
     return <Navigate to="/auth" />;
   }
 

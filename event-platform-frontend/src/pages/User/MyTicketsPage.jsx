@@ -36,10 +36,10 @@ function MyTicketsPage() {
   useEffect(() => {
     if (!user) return;
     if (tickets.active.length > 0) {
-      console.log("🟢 Bilete active:", tickets.active);
+      console.log(" Bilete active:", tickets.active);
     }
     if (tickets.expired.length > 0) {
-      console.log("🔴 Bilete expirate:", tickets.expired);
+      console.log(" Bilete expirate:", tickets.expired);
     }
 
     const fetchTickets = async () => {
@@ -76,7 +76,7 @@ function MyTicketsPage() {
 </h2>
 
   
-      {/* 🔵 Bilete active */}
+      {/* Bilete active */}
       <section className="mb-10">
       <h3 className="text-2xl font-semibold text-[#2A9D8F] mb-4 flex items-center gap-2">
           <CheckCircle className="w-6 h-6 text-[#2A9D8F]" />
@@ -124,7 +124,7 @@ function MyTicketsPage() {
         )}
       </section>
   
-      {/* 🔴 Bilete expirate */}
+      {/* Bilete expirate */}
       <section>
       <h3 className="text-2xl font-semibold text-gray-500 mb-4 flex items-center gap-2">
         <Clock className="w-6 h-6 text-gray-500" />

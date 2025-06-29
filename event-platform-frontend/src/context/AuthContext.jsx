@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("🔹 Token la inițializare:", token); // ✅ Vezi ce token ai în localStorage
+    console.log("🔹 Token la inițializare:", token); 
 
     if (token) {
       fetchUserData(token);
@@ -27,20 +27,20 @@ export const AuthProvider = ({ children }) => {
 
       if (res.ok) {
         const data = await res.json();
-        console.log("✅ Utilizator autentificat:", data); // ✅ Verifică datele utilizatorului
+        console.log(" Utilizator autentificat:", data); // Verifica datele utilizatorului
         setUser(data);
       } else {
-        console.warn("⚠️ Token invalid, se face logout...");
+        console.warn(" Token invalid, se face logout...");
         logout();
       }
     } catch (error) {
-      console.error("❌ Eroare la preluarea utilizatorului:", error);
+      console.error(" Eroare la preluarea utilizatorului:", error);
       logout();
     }
   };
 
   const login = (token) => {
-    console.log("🔹 Login cu token:", token); // ✅ Vezi token-ul la login
+    console.log("🔹 Login cu token:", token); // Vezi token-ul la login
     localStorage.setItem("token", token);
     fetchUserData(token);
   };

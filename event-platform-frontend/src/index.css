@@ -17,7 +17,7 @@
   }
 }
 
-/* ✅ Variabile CSS: utile pentru teme personalizate */
+/* Variabile CSS: utile pentru teme personalizate */
 :root {
   --light-gray: #E8E8E8;
   --primary-green: #6EB5AA;
@@ -29,7 +29,7 @@
   --text-light: #ffffff;
 }
 
-/* ✅ Stiluri personalizate doar dacă vrei – fără a afecta Tailwind */
+/* Stiluri personalizate  */
 @layer base {
   body {
     background-color: var(--light-gray);
@@ -50,7 +50,7 @@
   }
 }
 
-/* ✅ Dacă vrei butoane globale (recomandat cu clasă specifică, ex: .app-button) */
+/* butoane globale  */
 @layer components {
   .app-button {
     @apply rounded-md px-4 py-2 text-white font-medium cursor-pointer transition;

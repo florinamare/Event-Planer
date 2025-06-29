@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-require('dotenv').config(); // 🔐 Încarcă variabilele din .env
+require('dotenv').config(); // Încarcă variabilele din .env
 
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
@@ -16,17 +16,17 @@ require('./models/Cart');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-console.log("✅ Express inițializat...");
+console.log(" Express inițializat...");
 
 // 🛠️ Activează CORS pentru frontend
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 app.use(bodyParser.json());
 
-console.log("⏳ Se încearcă conectarea la MongoDB...");
+console.log(" Se încearcă conectarea la MongoDB...");
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
-    console.log("✅ MongoDB conectat cu succes!");
+    console.log(" MongoDB conectat cu succes!");
 
     app.use('/api/auth', authRoutes);
     app.use('/api/users', userRoutes);
@@ -36,11 +36,11 @@ mongoose.connect(process.env.MONGO_URI)
     app.use("/api/cart", cartRoutes);
 
     app.listen(PORT, () => {
-      console.log(`🚀 Serverul rulează pe http://localhost:${PORT}`);
+      console.log(` Serverul rulează pe http://localhost:${PORT}`);
     });
 
   })
   .catch(err => {
-    console.error("❌ Eroare la conectarea MongoDB:", err);
+    console.error(" Eroare la conectarea MongoDB:", err);
     process.exit(1);
   });

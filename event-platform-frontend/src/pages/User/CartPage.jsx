@@ -54,7 +54,7 @@ function CartPage() {
         setMessage(data.message || "Eroare la actualizarea cantității.");
       }
     } catch (err) {
-      console.error("❌ Eroare la comunicarea cu serverul:", err);
+      console.error(" Eroare la comunicarea cu serverul:", err);
       setMessage("Eroare la comunicarea cu serverul.");
     }
   };
@@ -131,7 +131,7 @@ function CartPage() {
         setMessage(data.message || "Eroare la checkout.");
       }
     } catch (err) {
-      console.error("❌ Eroare la server:", err);
+      console.error(" Eroare la server:", err);
       setMessage("Eroare la server.");
     }
   };

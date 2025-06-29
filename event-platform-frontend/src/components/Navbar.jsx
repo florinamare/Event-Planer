@@ -138,7 +138,7 @@ function Navbar() {
 
         </div>
   
-        {/* 🔽 Tot ce e în dreapta */}
+        {/* Tot ce e in dreapta */}
         <div className="navbar-right">
           {user ? (
             <>
@@ -177,7 +177,7 @@ function Navbar() {
                 )}
               </div>
   
-              {/* Buton Coș */}
+              {/* Buton Cos */}
               <div className="ml-2">
                 <button
                   onClick={() => navigate("/cart")}

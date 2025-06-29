@@ -1,4 +1,4 @@
-/* ✅ General */
+/*  General */
 body {
   margin: 0;
   font-family: 'Rethink Sans', sans-serif;
@@ -11,7 +11,7 @@ body {
   background-color: #1e1e2e;
   color: white;
 }
-/* ✅ Navbar */
+/*  Navbar */
 .navbar {
   background-color: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(10px);
@@ -40,14 +40,14 @@ body {
   font-size: 1.8rem;
 }
 
-/* ✅ Linkuri navbar */
+/*  Linkuri navbar */
 .nav-links {
   display: flex;
   gap: 10px;
   align-items: center;
 }
 
-/* ✅ Linkuri navbar */
+/*  Linkuri navbar */
 .nav-link,
 button.nav-link,
 .user-button {
@@ -86,7 +86,7 @@ button.nav-link:hover,
 }
 
 
-/* ✅ Linkuri active */
+/*  Linkuri active */
 .nav-link.active-link {
   color: #278c87;
 }
@@ -99,7 +99,7 @@ button.nav-link:hover,
   width: 100%;
 }
 
-/* ✅ Underline animat */
+/*  Underline animat */
 .nav-link {
   position: relative;
   overflow: hidden;
@@ -121,7 +121,7 @@ button.nav-link:hover,
   width: 100%;
 }
 
-/* ✅ Dropdown meniu */
+/*  Dropdown meniu */
 .user-dropdown {
   position: relative;
   display: inline-block;
@@ -190,7 +190,7 @@ button.nav-link:hover,
 
 
 
-/* ✅ Tema Light/Dark */
+/*  Tema Light/Dark */
 body[data-theme="dark"] {
   background-color: #1e1e2e;
   color: white;
@@ -209,7 +209,7 @@ body[data-theme="dark"] .nav-link.active-link {
   color: #a8dadc;
 }
 
-/* ✅ Alte componente */
+/*  Alte componente */
 .auth-button,
 .auth-button.cart {
   font-size: 1rem;
@@ -250,7 +250,7 @@ body[data-theme="dark"] .nav-link.active-link {
   opacity: 0.8;
 }
 
-/* ✅ Stil pentru bannere */
+/*  Stil pentru bannere */
 .banner-slide img {
   object-fit: cover;
   width: 100%;
@@ -282,8 +282,8 @@ body[data-theme="dark"] .nav-link.active-link {
 }
 
 .banner-title {
-  font-size: 2.5rem;           /* ajustează după dorință, ex: 2.5rem = 40px */
-  color: #ffffff;            /* schimbă cu orice culoare pastel sau închisă */
+  font-size: 2.5rem;           
+  color: #ffffff;            
   font-weight: 600;
   font-family: 'Rethink Sans', sans-serif;
   margin-bottom: 12px;

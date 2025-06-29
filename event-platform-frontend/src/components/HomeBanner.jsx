@@ -25,14 +25,14 @@ const HomeBanner = () => {
         {images.map((src, index) => (
           <SwiperSlide key={index}>
             <div className="relative w-full h-full">
-              {/* Imagine clară */}
+              {/* Imagine clara */}
               <img
                 src={src}
                 alt={`banner-${index}`}
                 className="absolute inset-0 w-full h-full object-cover z-0"
               />
 
-              {/* Overlay întunecat */}
+              {/* Overlay intunecat */}
               <div className="absolute inset-0 bg-black bg-opacity-50 z-10" />
 
               {/* Text central */}

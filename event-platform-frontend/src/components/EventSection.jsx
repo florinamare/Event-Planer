@@ -17,7 +17,7 @@ function EventSection({ title, events }) {
       <h2 className="text-xl font-semibold text-[#c97d10] mb-4">{title}</h2>
 
       <div className="relative w-full">
-        {/* Conținut scrollabil */}
+        {/* Continut scrollabil */}
         <div
           ref={scrollRef}
           className="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar py-2"
@@ -27,7 +27,7 @@ function EventSection({ title, events }) {
           ))}
         </div>
 
-        {/* Săgeată stânga */}
+        {/* Sageata stanga */}
         <button
           onClick={() => scroll("left")}
           className="absolute top-1/2 left-2 -translate-y-1/2 
@@ -38,7 +38,7 @@ function EventSection({ title, events }) {
           <ChevronLeft className="w-6 h-6 text-black" strokeWidth={2.5} />
         </button>
 
-        {/* Săgeată dreapta */}
+        {/* Sageata dreapta */}
         <button
           onClick={() => scroll("right")}
           className="absolute top-1/2 right-2 -translate-y-1/2 

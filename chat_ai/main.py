@@ -7,14 +7,14 @@ import traceback
 import unicodedata
 from datetime import datetime, timedelta
 
-# Elimină diacriticile
+# Elimina diacriticile
 def remove_diacritics(text):
     return ''.join(
         c for c in unicodedata.normalize('NFD', text)
         if unicodedata.category(c) != 'Mn'
     )
 
-# Încarcă modelul spaCy
+# Încarca modelul spaCy
 nlp = spacy.load("ro_core_news_sm")
 
 # Conectare MongoDB
@@ -22,7 +22,7 @@ client = MongoClient("mongodb+srv://mareflorinaveronica:Md6bLVD95NeXjj33@cluster
 db = client["event-platform"]
 events_collection = db["events"]
 
-# Inițializare FastAPI
+# Initializare FastAPI
 app = FastAPI()
 
 # CORS pentru frontend
@@ -51,7 +51,7 @@ async def suggest(payload: SuggestRequest):
         all_events = list(events_collection.find({}))
         results = []
 
-        # 🎯 Detectare intervale de timp
+        #  Detectare intervale de timp
         today = datetime.today().date()
         start_date = end_date = None
 
@@ -87,7 +87,7 @@ async def suggest(payload: SuggestRequest):
                         except:
                             pass
 
-        # 🧠 Căutare în baza de date
+        # Căutare în baza de date
         for event in all_events:
             event_dt = event.get("date")
             if not isinstance(event_dt, datetime):
@@ -127,6 +127,6 @@ async def suggest(payload: SuggestRequest):
         }
 
     except Exception as e:
-        print("❌ Eroare în /suggest:")
+        print(" Eroare în /suggest:")
         traceback.print_exc()
         return {"error": str(e)}

@@ -6,7 +6,7 @@ const upload = require('../middleware/upload');
 
 
 
-// Obține profilul utilizatorului (autentificat)
+// Obtine profilul utilizatorului (autentificat)
 router.get('/profile', authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
@@ -34,7 +34,7 @@ router.put('/update-role', authMiddleware, async (req, res) => {
     }
   });
 
-  // ✅ Returnează utilizatorii cu rol pending_organizer
+  // Returneaza utilizatorii cu rol pending_organizer
 router.get('/pending-organizers', authMiddleware, verifyAdmin, async (req, res) => {
   try {
     const pendingUsers = await User.find({ role: 'pending_organizer' }).select('-password');
@@ -44,7 +44,7 @@ router.get('/pending-organizers', authMiddleware, verifyAdmin, async (req, res) 
   }
 });
 
-// ✅ Aprobare organizator
+//  Aprobare organizator
 router.patch('/approve/:id', authMiddleware, verifyAdmin, async (req, res) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(
@@ -58,7 +58,7 @@ router.patch('/approve/:id', authMiddleware, verifyAdmin, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-// 🔄 Update profil cu poză
+//  Update profil cu poza
 router.put('/update-profile', authMiddleware, upload.single('profileImage'), async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
@@ -67,7 +67,7 @@ router.put('/update-profile', authMiddleware, upload.single('profileImage'), asy
     // Actualizează câmpuri (nume, email, etc. dacă ai)
     if (req.body.name) user.name = req.body.name;
 
-    // 🔄 Actualizează poza dacă a fost trimisă
+    // Actualizeaza poza daca a fost trimisa
     if (req.file) {
       user.profileImage = `/uploads/${req.file.filename}`;
     }
@@ -79,7 +79,7 @@ router.put('/update-profile', authMiddleware, upload.single('profileImage'), asy
   }
 });
   
-// ✅ Returnează toți utilizatorii și rolurile lor
+// Returneaza toti utilizatorii și rolurile lor
 router.get('/all', authMiddleware, verifyAdmin, async (req, res) => {
   try {
     const users = await User.find().select('-password');

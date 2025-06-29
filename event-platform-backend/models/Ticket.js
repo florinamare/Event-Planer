@@ -7,7 +7,7 @@ const TicketSchema = new Schema({
   ticketType: { type: String, required: true },
   quantity: { type: Number, required: true },
   price: { type: Number, required: true },
-  qrCode: { type: String }, // ✅ cod QR (text base64 sau URL)
+  qrCode: { type: String }, // cod QR (text base64 sau URL)
 }, { timestamps: true });
 
 module.exports = mongoose.model("Ticket", TicketSchema);

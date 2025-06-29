@@ -21,5 +21,5 @@ function verifyAdmin(req, res, next) {
   next();
 }
 
-// ✅ Export corect
+// Export corect
 module.exports = { authMiddleware, verifyAdmin };

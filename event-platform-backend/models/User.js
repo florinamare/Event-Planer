@@ -21,8 +21,8 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
   profileImage: {
-    type: String, // Stocăm doar calea relativă sau URL-ul imaginii
-    default: "", // Poate fi și un placeholder
+    type: String, // Stocam doar calea relativa sau URL-ul imaginii
+    default: "", //mplaceholder
   },
 }, { timestamps: true });
 

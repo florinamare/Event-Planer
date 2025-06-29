@@ -31,7 +31,7 @@ router.post("/purchase", authMiddleware, async (req, res) => {
     ticket.quantity -= quantity;
     await event.save();
 
-    // Creează înregistrarea biletului cumpărat
+    // Creeaza inregistrarea biletului cumparat
     const totalPrice = quantity * ticket.price;
     const newTicket = new Ticket({
       user: req.user.id,
@@ -50,7 +50,7 @@ router.post("/purchase", authMiddleware, async (req, res) => {
   }
 });
 
-// 🟢 Doar această rută GET trebuie să existe pentru /my
+//  Doar aceasta ruta GET trebuie sa existe pentru /my
 router.get("/my", authMiddleware, async (req, res) => {
   try {
     const tickets = await Ticket.find({ user: req.user.id }).populate("event");
@@ -74,7 +74,7 @@ router.get("/my", authMiddleware, async (req, res) => {
 
     res.json(grouped);
   } catch (err) {
-    console.error("❌ Eroare la preluarea biletelor:", err);
+    console.error(" Eroare la preluarea biletelor:", err);
     res.status(500).json({ message: "Eroare la server." });
   }
 });

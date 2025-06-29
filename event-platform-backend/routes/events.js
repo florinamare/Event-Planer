@@ -16,7 +16,7 @@ async function geocodeAddress(address) {
 
 
 // Crearea unui eveniment nou (acces doar pentru organizatori/admini)
-// ✅ Creare eveniment + încărcare imagine
+//  Creare eveniment + incărcare imagine
 router.post("/", authMiddleware, upload.fields([{ name: "image", maxCount: 1 }]), async (req, res) => {
   if (req.user.role !== 'organizer' && req.user.role !== 'admin') {
     return res.status(403).json({ message: 'Acces interzis' });
@@ -63,11 +63,11 @@ router.post("/", authMiddleware, upload.fields([{ name: "image", maxCount: 1 }])
       tickets,
       organizer: req.user.id,
     });
-    console.log("✅ Bilete finale salvate:", tickets);
+    console.log(" Bilete finale salvate:", tickets);
     await newEvent.save();
     res.status(201).json(newEvent);
   } catch (err) {
-    console.error("❌ Eroare la creare eveniment:", err);
+    console.error(" Eroare la creare eveniment:", err);
     res.status(500).json({ message: err.message });
   }
 });
@@ -110,7 +110,7 @@ router.get("/soon", async (req, res) => {
 router.get("/popular", async (req, res) => {
   try {
     const popularEvents = await Event.find()
-      .sort({ "tickets.length": -1 }) // sau creezi un alt criteriu
+      .sort({ "tickets.length": -1 }) 
       .limit(10);
     res.json(popularEvents);
   } catch (err) {
@@ -120,7 +120,7 @@ router.get("/popular", async (req, res) => {
 
 
 
-// 🔵 Returnează evenimentele organizatorului logat
+//  Returneaza evenimentele organizatorului logat
 router.get("/my", authMiddleware, async (req, res) => {
   try {
     const events = await Event.find({ organizer: req.user.id }).sort({ createdAt: -1 });
@@ -144,13 +144,13 @@ router.get("/search", async (req, res) => {
 
     res.json(results);
   } catch (err) {
-    console.error("❌ Eroare la căutare:", err);
+    console.error(" Eroare la căutare:", err);
     res.status(500).json({ message: "Eroare la căutare" });
   }
 });
 
 
-// ✅ Obține un eveniment după ID
+// Obtine un eveniment după ID
 router.get("/:id", async (req, res) => {
     try {
       console.log("🔹 Cerere GET pentru eveniment ID:", req.params.id);
@@ -179,7 +179,7 @@ router.get("/:id", async (req, res) => {
   
       const imagePath = req.file ? `/uploads/events/${req.file.filename}` : event.image;
   
-      // ✅ Extrage corect tickets ca JSON din formData
+      //  Extrage tickets ca JSON din formData
       let tickets = event.tickets;
       if (req.body.tickets) {
         try {
@@ -189,12 +189,12 @@ router.get("/:id", async (req, res) => {
             quantity: Number(ticket.quantity) || 0,
           }));
         } catch (err) {
-          console.error("❌ Eroare la parsarea biletelor:", err);
+          console.error(" Eroare la parsarea biletelor:", err);
           return res.status(400).json({ message: "Format invalid pentru bilete." });
         }
       }
   
-      // ✅ Actualizează câmpurile
+      // Actualizeaza campurile
       event.title = req.body.title || event.title;
       event.description = req.body.description || event.description;
       event.type = req.body.type || event.type;
@@ -208,7 +208,7 @@ router.get("/:id", async (req, res) => {
       await event.save();
       res.json(event);
     } catch (err) {
-      console.error("❌ Eroare la editarea evenimentului:", err);
+      console.error(" Eroare la editarea evenimentului:", err);
       res.status(500).json({ message: "Eroare server." });
     }
   });
@@ -227,7 +227,7 @@ router.delete("/:id", authMiddleware, async (req, res) => {
     await event.deleteOne();
     res.json({ message: "Eveniment șters cu succes" });
   } catch (err) {
-    console.error("❌ Eroare la ștergere:", err);
+    console.error(" Eroare la ștergere:", err);
     res.status(500).json({ message: "Eroare internă" });
   }
 });

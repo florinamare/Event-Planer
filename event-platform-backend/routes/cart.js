@@ -7,7 +7,7 @@ const Ticket = require("../models/Ticket");
 const QRCode = require("qrcode");
 
 
-// ✅ [GET] Obține coșul utilizatorului
+// GET Obține coșul utilizatorului
 router.get("/", authMiddleware, async (req, res) => {
   try {
     const cart = await Cart.findOne({ user: req.user.id }).populate("items.event");
@@ -17,7 +17,7 @@ router.get("/", authMiddleware, async (req, res) => {
   }
 });
 
-// ✅ [POST] Adaugă sau actualizează un bilet în coș
+//POST Adauga sau actualizeaza un bilet în cos
 router.post("/add", authMiddleware, async (req, res) => {
   const { eventId, type, quantity } = req.body;
 
@@ -30,27 +30,27 @@ router.post("/add", authMiddleware, async (req, res) => {
       cart = new Cart({ user: req.user.id, items: [] });
     }
 
-    // 🔍 Obține eventul și biletul aferent tipului
+    // Obtine eventul si biletul aferent tipului
     const event = await Event.findById(eventId);
     if (!event) return res.status(404).json({ message: "Evenimentul nu a fost găsit." });
 
     const ticketType = event.tickets.find(t => t.type === type);
     if (!ticketType) return res.status(404).json({ message: "Tipul de bilet nu a fost găsit." });
 
-    // 🔁 Caută dacă există deja acest tip de bilet în coș
+    // Cauta dacă exista deja acest tip de bilet în cos
     const existingItem = cart.items.find(
       (item) => item.event.toString() === eventId && item.type === type
     );
 
     if (existingItem) {
       existingItem.quantity += quantity;
-      existingItem.price = ticketType.price; // 🟢 actualizează prețul dacă se modifică
+      existingItem.price = ticketType.price; // actualizeaza pretul dacă se modifica
     } else {
       cart.items.push({
         event: eventId,
         type,
         quantity,
-        price: ticketType.price, // ✅ salvăm prețul acum
+        price: ticketType.price, // salvam pretul acum
       });
     }
 
@@ -89,7 +89,7 @@ router.post("/update", authMiddleware, async (req, res) => {
 
 
 
-// ✅ [DELETE] Șterge un bilet din coș
+// DELETE sterge un bilet din cos
 router.delete("/remove", authMiddleware, async (req, res) => {
   const { eventId, type } = req.body;
 
@@ -109,7 +109,7 @@ router.delete("/remove", authMiddleware, async (req, res) => {
 });
 
 
-// ✅ [POST] Checkout - finalizează comanda
+// POST Checkout - finalizeaza comanda
 router.post("/checkout", authMiddleware, async (req, res) => {
   try {
     const userId = req.user.id;
@@ -135,10 +135,10 @@ router.post("/checkout", authMiddleware, async (req, res) => {
         });
       }
 
-      // 🟡 Scade biletele
+      //  Scade biletele
       ticket.quantity -= item.quantity;
 
-      // 🟢 Generează QR
+      // Generează QR
       const qrPayload = {
         userId: userId,
         eventId: event._id,
@@ -159,7 +159,7 @@ router.post("/checkout", authMiddleware, async (req, res) => {
         qrCode: qrCodeData
       });
 
-      // ✅ Salvează modificările la event (update în loc)
+      //  Salveaza modificarile la event (update in loc)
       await event.save();
     }
 
@@ -172,7 +172,7 @@ router.post("/checkout", authMiddleware, async (req, res) => {
 
     res.status(201).json({ message: "Checkout finalizat cu succes!", tickets: ticketsToSave });
   } catch (err) {
-    console.error("❌ Eroare la checkout:", err);
+    console.error("Eroare la checkout:", err);
     res.status(500).json({ message: "Eroare la procesarea checkout-ului." });
   }
 });

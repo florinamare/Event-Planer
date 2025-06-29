@@ -18,7 +18,7 @@ function Login() {
       });
 
       const data = await res.json();
-      console.log("🔹 Răspuns login:", data); // ✅ Verifică ce primești ca răspuns
+      console.log("🔹 Răspuns login:", data); // Verifica ce primesti ca raspuns
 
       if (res.ok && data.token) {
         login(data.token);
@@ -27,7 +27,7 @@ function Login() {
         alert(data.message);
       }
     } catch (error) {
-      console.error("❌ Eroare la autentificare:", error);
+      console.error(" Eroare la autentificare:", error);
     }
   };
 

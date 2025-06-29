@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
       folder = "uploads/events";
     }
 
-    // Creează folderul dacă nu există
+    // Creează folderul dacă nu exista
     if (!fs.existsSync(folder)) {
       fs.mkdirSync(folder, { recursive: true });
     }
@@ -27,7 +27,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // max 5MB
+  limits: { fileSize: 5 * 1024 * 1024 }, // max 5mb
   fileFilter: (req, file, cb) => {
     const allowedTypes = /jpeg|jpg|png|gif/;
     const isValid = allowedTypes.test(path.extname(file.originalname).toLowerCase());

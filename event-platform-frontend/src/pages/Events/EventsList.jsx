@@ -23,7 +23,7 @@ function EventsList() {
         setEvents(filtered);
         groupByCategory(filtered);
       })
-      .catch((err) => console.error("❌ Eroare la încărcarea evenimentelor:", err))
+      .catch((err) => console.error(" Eroare la încărcarea evenimentelor:", err))
       .finally(() => setLoading(false));
   }, [selectedType]);
 

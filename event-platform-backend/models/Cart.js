@@ -6,7 +6,7 @@ const CartItemSchema = new Schema({
   event: { type: Schema.Types.ObjectId, ref: "Event" },
   type: String,
   quantity: Number,
-  price: Number, // ✅ Adaugă acest câmp
+  price: Number, //  Adaugă acest camp
 });
 
 const CartSchema = new Schema({

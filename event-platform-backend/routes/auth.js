@@ -7,7 +7,7 @@ const secret = process.env.JWT_SECRET || 'secretkey';
 
 // Ruta de înregistrare
 
-// 🔐 Înregistrare utilizator
+// Inregistrare utilizator
 router.post("/register", async (req, res) => {
   const { name, email, password, role } = req.body;
 
@@ -17,7 +17,7 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ message: "Acest email este deja folosit." });
     }
 
-    // 🔐 Setăm rolul doar dacă e permis
+    // Setam rolul doar dacă e permis
     let finalRole = "user";
     if (role === "pending_organizer") {
       finalRole = "pending_organizer";
